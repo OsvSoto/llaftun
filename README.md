@@ -53,7 +53,7 @@ Antes de publicar no debería quedar ninguno.
 
 ## Antes de desplegar
 
-Tres cosas hay que confirmar con el hosting, porque cambian decisiones técnicas:
+Tres cosas hay que confirmar con el hosting:
 
 1. **Que sea Apache y permita `.htaccess` con `mod_rewrite`.** Sin eso, recargar
    `/quienes-somos` devuelve un 404 y habría que pasar a rutas con `#`.
@@ -70,6 +70,3 @@ npm run build
 
 Subir el contenido de `dist/` a la raíz pública del hosting (`public_html/` o
 equivalente). El `.htaccess` va incluido en `dist/`.
-
-Antes de reemplazar el sitio actual: hacer un respaldo completo del WordPress
-(archivos y base de datos) y probar la versión nueva en un subdominio.
