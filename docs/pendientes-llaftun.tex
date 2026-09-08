@@ -1,0 +1,403 @@
+% =====================================================================
+%  Fundación Llaftun — Lo que necesito de ustedes
+%  Documento de pendientes del sitio web
+%
+%  Compilar con pdfLaTeX:   pdflatex pendientes-llaftun.tex
+%  (dos veces, para que hyperref resuelva los enlaces)
+%
+%  Tipografía: Alegreya y Alegreya Sans, las mismas del sitio.
+%  Si tu distribución no las trae, comenta las dos líneas marcadas
+%  con [FUENTES] y el documento compila igual con la tipografía por
+%  defecto.
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting,es-tabla]{babel}
+
+% [FUENTES] — comentar estas dos líneas si no están instaladas
+\usepackage{Alegreya}
+\usepackage{AlegreyaSans}
+
+\usepackage[
+  a4paper,
+  top=2.4cm, bottom=2.4cm, left=2.6cm, right=2.6cm
+]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+% ---------------------------------------------------------------------
+%  Colores: los mismos del sitio, tomados del logotipo
+% ---------------------------------------------------------------------
+\definecolor{bosque}{HTML}{2D5843}      % verde de los títulos
+\definecolor{bosqueclaro}{HTML}{4D7A61} % verde del antetítulo
+\definecolor{greda}{HTML}{9C4230}       % rojo tierra: urgencias y datos
+\definecolor{gredasuave}{HTML}{F6ECE9}
+\definecolor{pizarra}{HTML}{3F5A6B}     % azul: decisiones
+\definecolor{pizarrasuave}{HTML}{EAF0F3}
+\definecolor{tinta}{HTML}{1B241E}
+\definecolor{tintasuave}{HTML}{4B5545}
+\definecolor{superficie}{HTML}{F0F3EE}
+\definecolor{superficiealt}{HTML}{E6EBE3}
+
+\color{tinta}
+
+% ---------------------------------------------------------------------
+%  Títulos de sección
+% ---------------------------------------------------------------------
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{bosque}}
+  {}{0pt}{}
+  [\vspace{2pt}{\color{superficiealt}\titlerule[1pt]}]
+\titlespacing*{\section}{0pt}{2.2em}{0.8em}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% ---------------------------------------------------------------------
+%  Etiquetas de tipo (los "chips" del documento web)
+% ---------------------------------------------------------------------
+\newcommand{\etiqueta}[3]{%
+  \,\raisebox{0.12ex}{\colorbox{#1}{%
+    \footnotesize\sffamily\color{#2}\,#3\,}}%
+}
+\newcommand{\contenido}{\etiqueta{superficiealt}{tintasuave}{CONTENIDO}}
+\newcommand{\decision}{\etiqueta{pizarrasuave}{pizarra}{DECISIÓN}}
+\newcommand{\dato}{\etiqueta{gredasuave}{greda}{DATO}}
+
+% ---------------------------------------------------------------------
+%  Lista de puntos: código a la izquierda, título y cuerpo a la derecha
+% ---------------------------------------------------------------------
+\newlist{puntos}{description}{1}
+\setlist[puntos]{
+  style=sameline,
+  leftmargin=4.6em,
+  labelwidth=3.9em,
+  labelsep=0.7em,
+  align=left,
+  font=\normalfont\sffamily\small\color{tintasuave},
+  itemsep=1.2em,
+  parsep=0.45em,
+  topsep=1.1em
+}
+
+% Título de un punto
+\newcommand{\punto}[1]{\textbf{#1}}
+
+% Antetítulo de sección (la bajada explicativa bajo el título)
+\newcommand{\nota}[1]{{\small\color{tintasuave}#1}\par\vspace{0.2em}}
+
+% ---------------------------------------------------------------------
+\begin{document}
+\sffamily
+
+% =====================================================================
+%  Portada
+% =====================================================================
+{\footnotesize\color{bosqueclaro}FUNDACIÓN LLAFTUN \textperiodcentered{} SITIO WEB NUEVO}
+
+\vspace{0.7em}
+
+{\rmfamily\bfseries\color{tinta}\fontsize{30}{34}\selectfont Lo que necesito de ustedes\par}
+
+\vspace{0.7em}
+
+{\rmfamily\large\color{tintasuave}
+Ya construí la estructura del sitio y rescaté los textos que estaban
+publicados en la web actual. Lo que sigue es completar el material que
+todavía no existe en el Drive.\par}
+
+\vspace{1.2em}
+
+\begin{tcolorbox}[
+  colback=superficie, colframe=superficie,
+  boxrule=0pt, arc=2pt, left=10pt, right=10pt, top=8pt, bottom=8pt
+]
+\small\color{tintasuave}
+\textbf{\color{tinta}11} cosas por entregar \hfill
+\textbf{\color{tinta}4} decisiones por tomar \hfill
+\textbf{\color{tinta}5} datos técnicos \hfill
+\textbf{\color{tinta}1} asunto urgente
+\end{tcolorbox}
+
+% =====================================================================
+%  Urgente
+% =====================================================================
+\vspace{0.8em}
+
+\begin{tcolorbox}[
+  colback=gredasuave, colframe=greda,
+  boxrule=0pt, leftrule=2.5pt, arc=0pt,
+  left=12pt, right=12pt, top=10pt, bottom=10pt
+]
+{\footnotesize\bfseries\color{greda}ATENDER HOY}
+
+\vspace{0.4em}
+\small
+En la carpeta \textbf{ACCESOS y LOGOS} del Drive hay un documento con la
+contraseña del administrador de WordPress escrita en texto plano. Cualquier
+persona con acceso a ese Drive puede entrar a modificar el sitio.
+
+\vspace{0.5em}
+Hay que cambiar esa contraseña por una nueva, borrar el documento, y pasar
+los accesos por otro medio. No es urgente por el sitio nuevo: es urgente por
+el que está publicado ahora.
+\end{tcolorbox}
+
+% =====================================================================
+\section{Página de inicio}
+\nota{Es la primera pantalla que ve quien llega al sitio: una frase, un
+carrusel con los proyectos y un enlace a cada uno.}
+
+\begin{puntos}
+
+\item[IN\textperiodcentered1] \punto{La frase representativa}\contenido
+
+Una sola frase, de una línea, que abra el sitio y diga quiénes son. Es lo
+primero y lo más grande que se lee. Mientras no la tenga uso ``Entregamos
+herramientas para el bienestar de quienes más lo necesitan'', tomada de la
+misión, pero conviene que la escriban ustedes.
+
+\item[IN\textperiodcentered2] \punto{Cuáles son los proyectos más representativos}\decision
+
+Hay más de veinte proyectos documentados entre la web y el Drive. Elijan
+entre cuatro y seis para el carrusel y la portada. Por ahora están puestos:
+Contacto con la biodiversidad de mi territorio, El Tesoro del Bosque
+Esclerófilo, Cooperativa de Trabajo Inclusiva e Hipoterapia.
+
+\item[IN\textperiodcentered3] \punto{Una fotografía por cada proyecto elegido}\contenido
+
+Horizontal y de buena calidad, porque se muestra a pantalla completa en el
+carrusel. Ver las condiciones al final de esta página.
+
+\item[IN\textperiodcentered4] \punto{Texto de ``El Tesoro del Bosque Esclerófilo''}\contenido
+
+De este proyecto solo tengo el título. Falta el texto que describa en qué
+consistió, como el que ya existe para el proyecto FPA 2025. Dos o tres
+párrafos bastan.
+
+\end{puntos}
+
+% =====================================================================
+\section{Quiénes somos}
+\nota{Los principios, la misión y la visión ya están listos: se rescataron
+del sitio actual. Falta el equipo.}
+
+\begin{puntos}
+
+\item[QS\textperiodcentered1] \punto{Descripción de David Uribe y Rodrigo Palacios}\contenido
+
+Sus carpetas en el Drive están vacías. Tres o cuatro líneas de cada uno, en
+el mismo tono que las de Claudia y Pilar, que ya están escritas y quedaron
+muy bien.
+
+\item[QS\textperiodcentered2] \punto{Retratos de los integrantes del directorio}\contenido
+
+Sirve cualquier foto donde se les vea de frente y con luz pareja; no hace
+falta un estudio. Lo importante es que las cinco se vean parecidas entre sí,
+y que el recorte sea cuadrado con la cara centrada, porque se muestran en
+círculo.
+
+\item[QS\textperiodcentered3] \punto{Una imagen de apertura}\contenido
+
+Horizontal, de una charla o de una actividad con gente, para abrir la página
+antes del texto de principios.
+
+\end{puntos}
+
+% =====================================================================
+\section{Áreas de acción}
+\nota{Esta es la parte con el vacío más grande, y donde primero necesito que
+me respondan.}
+
+\begin{puntos}
+
+\item[AA\textperiodcentered1] \punto{¿Educación Ambiental y Bienestar reemplazan a los cuatro caminos?}\decision
+
+El sitio actual organiza todo el trabajo de la fundación en cuatro caminos:
+Medio Ambiente, Artes, Salud Natural y Economía Social. El documento de
+requerimientos habla de dos áreas: Educación Ambiental y Bienestar.
+
+No es un cambio de diseño, es un cambio de identidad: buena parte de los
+proyectos históricos son de arteterapia y de economía social, y hoy no
+tendrían dónde ubicarse. ¿Es un reenfoque deliberado, o las dos áreas nuevas
+conviven con lo anterior?
+
+\item[AA\textperiodcentered2] \punto{Todo el contenido del área Bienestar}\contenido
+
+En el Drive no hay nada de esta área: ni texto ni fotografías. Todo el
+material disponible es de educación ambiental. Necesito uno o dos párrafos
+que expliquen en qué consiste el área, y una fotografía que la represente.
+
+\item[AA\textperiodcentered3] \punto{Una fotografía para Educación Ambiental}\contenido
+
+Las fotos del proyecto FPA 2024 que están en el Drive sirven bien para esto:
+son las únicas tomadas con cámara.
+
+\end{puntos}
+
+% =====================================================================
+\section{Material educativo}
+\nota{Los siete documentos pedagógicos del Drive ya están incorporados y se
+van a poder descargar directamente desde el sitio.}
+
+\begin{puntos}
+
+\item[ME\textperiodcentered1] \punto{Revisar la descripción de cada documento}\contenido
+
+Escribí una descripción breve para cada uno de los siete materiales a partir
+de su título, pero son provisorias. Les pido revisarlas y corregirlas: son
+el texto que decide si alguien descarga el material o no.
+
+\item[ME\textperiodcentered2] \punto{Una fotografía de estudiantes con los materiales}\contenido
+
+Es la imagen que abre esta página, según lo pedido en el documento de
+requerimientos.
+
+\item[ME\textperiodcentered3] \punto{¿Existen los videos de la fundación?}\decision
+
+El documento de requerimientos pide una sección de videos, pero no hay
+ningún archivo de video en el Drive ni conozco un canal de YouTube de la
+fundación.
+
+Si existen en otro lado, los subo a YouTube y los enlazo. Si no existen
+todavía, saco la sección y la agrego cuando los tengan: es preferible a
+dejar un espacio vacío.
+
+\end{puntos}
+
+% =====================================================================
+\section{Secciones que se mantienen}
+\nota{El documento de requerimientos describe cuatro páginas, pero el sitio
+publicado hoy tiene más. Ya construí también Servicios, Alianzas,
+Transparencia y Colabora, con la misma estructura que tienen ahora, para que
+no se pierda nada al cambiar de sitio. Solo necesito dos cosas de ustedes.}
+
+\begin{puntos}
+
+\item[SM\textperiodcentered1] \punto{Confirmar los datos bancarios}\dato
+
+Copié el número de cuenta, el RUT y el correo de donaciones desde la página
+actual, pero no tengo cómo verificar que sigan vigentes. Como por ahí entran
+los aportes, un dígito equivocado significa donaciones perdidas sin que
+nadie se entere.
+
+Necesito que alguien los revise contra la cartola antes de publicar.
+
+\item[SM\textperiodcentered2] \punto{Documentos de transparencia que falten}\contenido
+
+La página queda armada con lo que hay entre el sitio actual y el Drive:
+balances 2020 a 2023, memorias 2022 a 2024, estados de resultados y los
+convenios del Fondo Vivir Mejor y del Fondo de Protección Ambiental.
+
+Si hay documentos más recientes, o alguno que deba estar publicado y no esté
+en esa lista, háganmelo saber. Vale la pena revisar qué obliga a publicar
+cada convenio.
+
+\end{puntos}
+
+% =====================================================================
+\section{Identidad visual}
+\nota{En el Drive dejaron cuatro combinaciones de color. Hay que elegir una.}
+
+\begin{puntos}
+
+\item[IV\textperiodcentered1] \punto{Elegir la paleta de colores}\decision
+
+Preparé una comparación donde las cuatro paletas están aplicadas al sitio
+real, con la misma portada y las mismas tarjetas de proyecto, para que se vea
+cómo queda cada una y no solo los cuadrados de color:
+\href{https://claude.ai/code/artifact/e10ee75b-abc8-4572-9530-843c7e9d559a}%
+{\color{bosque}\underline{ver las cuatro opciones}}.
+
+Basta con responder con el número. El color se puede cambiar más adelante
+sin rehacer el sitio, así que esta decisión no detiene el trabajo.
+
+\end{puntos}
+
+% =====================================================================
+\section{Datos técnicos}
+\nota{Esto no es contenido, pero sin ello no puedo publicar.}
+
+\begin{puntos}
+
+\item[DT\textperiodcentered1] \punto{Datos del hosting}\dato
+
+Qué empresa lo provee, qué plan tienen contratado, y el acceso al panel de
+administración. Necesito verificar que el servidor permita configurar las
+direcciones del sitio nuevo, y cuánto espacio queda disponible.
+
+\item[DT\textperiodcentered2] \punto{Tipo de cuenta de Instagram}\dato
+
+Para mostrar las publicaciones automáticamente en el sitio, la cuenta debe
+estar configurada como Empresa o Creador de contenido, no como cuenta
+personal. Se revisa en la configuración de la aplicación.
+
+\item[DT\textperiodcentered3] \punto{Los dos formularios de inscripción están rotos}\dato
+
+Los botones ``Inscríbete aquí'' de socio donante y de voluntariado llevan a
+la dirección de edición del formulario, no a la de respuesta. Quien entra
+desde el sitio ve un aviso de permiso denegado y no puede inscribirse. Lleva
+tiempo así.
+
+Necesito los enlaces correctos, los que aparecen al apretar ``Enviar''
+dentro de cada formulario de Google.
+
+\item[DT\textperiodcentered4] \punto{Autorizaciones de imagen}\dato
+
+Varias de las fotografías muestran a niñas, niños y jóvenes de las escuelas
+con las que trabajan. Antes de publicarlas necesito confirmar que existen
+las autorizaciones firmadas por sus apoderados.
+
+\end{puntos}
+
+% =====================================================================
+%  Cómo enviar las fotografías
+% =====================================================================
+\vspace{1.6em}
+
+\begin{tcolorbox}[
+  colback=superficie, colframe=superficie,
+  boxrule=0pt, arc=2pt, left=12pt, right=12pt, top=10pt, bottom=10pt
+]
+{\footnotesize\bfseries\color{tintasuave}CÓMO ENVIAR LAS FOTOGRAFÍAS}
+
+\vspace{0.5em}
+\small\color{tintasuave}
+\begin{itemize}[leftmargin=1.1em, itemsep=0.5em, topsep=0pt]
+  \item \textbf{\color{tinta}El archivo original, no una foto reenviada por
+        WhatsApp.} WhatsApp reduce las imágenes a una fracción de su tamaño
+        y esa pérdida no se recupera. La mayor parte de las fotos del Drive
+        llegaron por ahí y se ven bien en el teléfono, pero se ven borrosas
+        al ocupar el ancho de una pantalla de computador.
+  \item \textbf{\color{tinta}Horizontales} para portadas y proyectos. Las
+        verticales obligan a recortar y casi siempre se pierde lo importante.
+  \item \textbf{\color{tinta}Al menos 1600 píxeles de ancho.} Las fotos
+        tomadas con cámara, como las del proyecto FPA 2024, cumplen de sobra.
+  \item \textbf{\color{tinta}Con el nombre de lo que muestran.} Basta con que
+        digan algo como ``huerto escuela El Roble'' en vez de ``WhatsApp
+        Image 2025-10-20''.
+\end{itemize}
+\end{tcolorbox}
+
+% =====================================================================
+%  Cierre
+% =====================================================================
+\vspace{1.6em}
+{\color{superficiealt}\hrule height 1pt}
+\vspace{1em}
+
+{\small\color{tintasuave}
+No hace falta que llegue todo junto. Cada cosa que entreguen reemplaza un
+espacio marcado en el sitio, y se puede ir revisando por partes.
+
+Lo que más conviene resolver primero son las decisiones, porque de ellas
+depende cómo se ordena el resto del sitio.\par}
+
+\end{document}

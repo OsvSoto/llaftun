@@ -1,0 +1,39 @@
+CÓMO PUBLICAR UN DOCUMENTO DE TRANSPARENCIA
+===========================================
+
+Esta carpeta contiene los balances, memorias, estados de resultados y
+convenios que se muestran en la página "Transparencia" del sitio, junto al
+archivo index.json que los lista.
+
+Funciona igual que la carpeta de material educativo: para publicar un
+documento nuevo NO hace falta tocar el código ni volver a publicar el sitio.
+
+1. Subir el PDF a esta carpeta, por FTP.
+   Nombres en minúsculas, sin espacios, tildes ni paréntesis.
+   Ejemplo: balance-2025.pdf
+
+2. Agregar una entrada al index.json:
+
+   {
+     "id": "balance-2025",
+     "titulo": "Balance 2025",
+     "categoria": "Balances",
+     "periodo": "2025",
+     "archivo": "/documentos/balance-2025.pdf",
+     "peso": "1,2 MB"
+   }
+
+   El campo "categoria" es el que agrupa los documentos en la página. Las
+   categorías que ya existen son: Balances, Memorias, Estados de resultados
+   y Convenios. Si se escribe una categoría nueva, aparece al final.
+
+   Cuidado con las comas: cada entrada va separada por coma, y la última NO
+   lleva coma antes del corchete de cierre.
+
+IMPORTANTE: los archivos que están hoy en el Drive todavía no se han subido
+aquí. Los nombres del index.json son los que hay que usar al subirlos.
+
+Dos memorias pesan demasiado para descargarse cómodamente desde un teléfono:
+la Memoria 2023 (33 MB) y la Memoria 2024 (20 MB). Conviene comprimirlas
+antes de subirlas; un PDF así suele bajar a menos de la mitad sin que se note
+la diferencia.

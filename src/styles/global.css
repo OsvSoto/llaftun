@@ -1,0 +1,1100 @@
+/*
+ * Sistema visual del sitio.
+ */
+
+:root {
+  /* Paleta */
+  --verde-palido: #eff4bd;
+  --verde-claro: #a2b447;
+  --verde: #556f30;
+  --verde-profundo: #2c7065;
+  --cafe-profundo: #362f22;
+  --pizarra: #516f7a;
+
+  /* Derivados: */
+  --verde-noche: #17240f;
+  --cafe: #6e5b3c;
+  --cafe-claro: #9c8a66;
+
+  /* Neutros*/
+  --papel: #ffffff;
+  --arena: #f5f7e6;
+  --arena-honda: #e6ebcc;
+  --tinta: #1c2114;
+  --tinta-suave: #576046;
+  --borde: #dee3c6;
+
+  /* Acento */
+  --acento: #ac6e28;
+  --acento-oscuro: #642f15;
+
+  --ancho-maximo: 1140px;
+  --radio: 8px;
+
+  /* Alegreya y Alegreya Sans, de Huerta Tipográfica (Argentina). Es una
+     superfamilia dibujada para leer en español: los acentos y la ñ están
+     resueltos de origen, no añadidos después. Sus serifas robustas y sus
+     bocas redondeadas conversan con el logotipo. */
+  --fuente-titulo: 'Alegreya', Georgia, 'Times New Roman', serif;
+  --fuente-texto: 'Alegreya Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  font-size: 1.09rem;
+  line-height: 1.65;
+  color: var(--tinta);
+  background: var(--papel);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.004em;
+  color: var(--verde-profundo);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.1rem);
+  margin: 0 0 0.5em;
+}
+
+h2 {
+  font-size: clamp(1.45rem, 1.15rem + 1.3vw, 2.05rem);
+  margin: 0 0 0.6em;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin: 0 0 0.4em;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: 65ch;
+}
+
+a {
+  color: var(--verde);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--verde-profundo);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Un solo ícono para todo el sitio (ver Icono.tsx): hereda el color del
+   texto que lo rodea y su tamaño sigue al font-size del contenedor, así se
+   ve igual de nítido en un botón grande que en la miga de pan. */
+.icono {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex: none;
+}
+
+.saltar-al-contenido {
+  position: absolute;
+  left: -9999px;
+}
+
+.saltar-al-contenido:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  background: var(--papel);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radio);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.2);
+}
+
+:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 2px;
+}
+
+/* El <main> recibe el foco por programa al cambiar de página, para que los
+   lectores de pantalla empiecen a leer la página nueva. No es un foco de
+   teclado —no se llega con tabulador— así que dibujarle un contorno solo
+   pintaba una línea verde a lo ancho del sitio. */
+#contenido:focus,
+#contenido:focus-visible {
+  outline: none;
+}
+
+/* ==========================================================
+   Estructura
+   ========================================================== */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.seccion {
+  padding-block: clamp(2.75rem, 1.5rem + 3.5vw, 5rem);
+}
+
+/* Las bandas de color no se cortan a filo: llevan una línea fina que hace de
+   línea de tierra, para que el cambio de fondo se lea como una capa y no como
+   un bloque pegado. */
+.seccion--arena {
+  background: var(--arena);
+  border-block: 1px solid var(--arena-honda);
+}
+
+.pagina {
+  padding-block: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+}
+
+/* Antetítulo: la etiqueta chica sobre un título de sección. */
+.antetitulo {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pizarra);
+  margin: 0 0 0.7rem;
+}
+
+/* ==========================================================
+   Estratos: el descenso al bosque
+   ==========================================================
+   La portada es la copa; el pie es el subsuelo. Cada sección de la página de
+   inicio empieza exactamente en el color donde terminó la anterior, así el
+   descenso se lee como una transición continua y no como bloques apilados.
+
+   Es un recurso de la portada, no de todo el sitio: en Transparencia o en
+   Servicios, atravesar el bosque mientras se lee un balance sería ruido. */
+
+:root {
+  --sotobosque-alto: #ffffff;
+  --hojarasca: #f2f6d3;
+  --humus: #e2dfb0;
+  --suelo: #cabf92;
+}
+
+.estrato {
+  background-image: linear-gradient(180deg, var(--desde) 0%, var(--hasta) 100%);
+}
+
+/* La sección que iba entre las raíces y "En qué trabajamos" desapareció (el
+   carrusel se mudó a la portada), así que este estrato ahora cubre los dos
+   tramos que antes cubrían dos secciones: sale del blanco de las raíces
+   (--sotobosque-alto) y llega directo a la hojarasca. */
+.estrato--hojarasca {
+  --desde: var(--sotobosque-alto);
+  --hasta: var(--hojarasca);
+}
+
+.estrato--humus {
+  --desde: var(--hojarasca);
+  --hasta: var(--humus);
+}
+
+.estrato--suelo {
+  --desde: var(--humus);
+  --hasta: var(--suelo);
+}
+
+/* El punto de descanso del descenso: no hay un tono más abajo que el suelo,
+   así que esta es plana en vez de otro degradado. La usa la última sección
+   del recorrido antes del cierre de Colabora, que ya no pertenece al bosque. */
+.estrato--piso {
+  background: var(--suelo);
+}
+
+/* Franjas de transición que llevan un dibujo encima */
+.franja {
+  line-height: 0;
+}
+
+.franja--hojarasca {
+  background: var(--hojarasca);
+}
+
+.hojarasca {
+  display: block;
+  width: min(100%, 68rem);
+  margin-inline: auto;
+  height: clamp(72px, 8vw, 118px);
+  color: var(--verde-profundo);
+  opacity: 0.9;
+}
+
+/* ==========================================================
+   Cabecera
+   ========================================================== */
+
+.cabecera {
+  /* Blanco puro a propósito: el logo disponible es un JPG con fondo blanco,
+     así que cualquier tinte del fondo dejaría ver su recuadro. Cuando la
+     fundación entregue el PNG transparente, esto se puede tintar. */
+  background: var(--papel);
+  border-bottom: 1px solid var(--borde);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.cabecera__interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-block: 0.75rem;
+}
+
+.cabecera__marca {
+  display: block;
+  line-height: 0;
+}
+
+.cabecera__logo {
+  width: auto;
+  height: clamp(46px, 5vw, 62px);
+}
+
+.navegacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1.15rem;
+}
+
+.navegacion a {
+  color: var(--tinta);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding-block: 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+
+.navegacion a:hover {
+  color: var(--verde-profundo);
+  border-bottom-color: var(--verde-claro);
+}
+
+.navegacion a.activo {
+  color: var(--verde-profundo);
+  font-weight: 700;
+  border-bottom-color: var(--verde);
+}
+
+/* Se escribe como `.navegacion a.…` para ganarle por especificidad a la regla
+   `.navegacion a` de más arriba, en vez de recurrir a !important. */
+.navegacion a.navegacion__destacado {
+  background: var(--acento);
+  color: var(--papel);
+  padding: 0.35rem 0.95rem;
+  border-radius: 999px;
+  border-bottom-color: transparent;
+  font-weight: 700;
+  transition: background-color 0.22s ease;
+}
+
+.navegacion a.navegacion__destacado:hover {
+  background: var(--acento-oscuro);
+  color: var(--papel);
+}
+
+/* ==========================================================
+   Portada
+   ========================================================== */
+
+/* Mismo degradado verde-a-terracota que el cierre de "Colabora con
+   nosotros" (ver `.cta-colabora` más abajo): la portada es la primera vez
+   que el visitante ve el sitio y ese cierre es la última, así que repetir
+   la combinación las conecta como el principio y el fin de un mismo
+   recorrido. */
+.portada {
+  position: relative;
+  overflow: hidden;
+  background:
+    /* Luz que se cuela por la copa, arriba a la izquierda */
+    radial-gradient(
+      70rem 40rem at 18% -10%,
+      rgb(127 191 155 / 0.28),
+      transparent 60%
+    ),
+    linear-gradient(160deg, var(--verde-profundo) 0%, var(--verde-noche) 60%, var(--acento) 145%);
+  color: var(--arena);
+  padding-block: clamp(0.5rem, 1rem + 5vw, 3rem);
+}
+
+.portada h1 {
+  color: var(--papel);
+  max-width: 17ch;
+  font-size: clamp(2.1rem, 1.3rem + 3.6vw, 3.6rem);
+  margin-bottom: 0.45em;
+}
+
+.portada p {
+  font-size: clamp(1.02rem, 0.98rem + 0.35vw, 1.2rem);
+  color: var(--verde-palido);
+  max-width: 46ch;
+  margin-bottom: 0;
+}
+
+.portada__texto .boton {
+  margin-top: 1.75rem;
+}
+
+/* La portada usa un contenedor más ancho que el resto del sitio: con el
+   1140px estándar (`.contenedor`), el titular y el carrusel quedaban con
+   mucho verde vacío a los costados en pantallas grandes. Aquí se nota menos
+   porque el fondo de color disimula el margen, así que puede estirarse más
+   que en una página de solo texto. */
+.portada .contenedor {
+  max-width: 1440px;
+}
+
+/* Titular a un lado, carrusel al otro: el bloque de texto solo dejaba medio
+   verde vacío al lado. `stretch` (el valor por defecto de `align-items`,
+   puesto explícito para que quede claro que es a propósito) hace que el
+   carrusel llegue hasta la altura del titular en vez de quedar centrado con
+   aire arriba y abajo. En una pantalla angosta se apilan, texto primero. */
+.portada__grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 2fr);
+  align-items: stretch;
+  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+}
+
+@media (max-width: 58rem) {
+  .portada__grilla {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* Ocupa todo el alto que le da la grilla en vez del 16:9 fijo del carrusel
+   suelto (ver más abajo): aquí el marco lo pone la portada, no la foto. */
+.portada__carrusel .carrusel,
+.portada__carrusel .carrusel__vitrina {
+  width: 100%;
+  height: 100%;
+}
+
+.portada__carrusel .carrusel__vitrina {
+  aspect-ratio: auto;
+  min-height: 16rem;
+  box-shadow: 0 24px 55px -22px rgb(0 0 0 / 0.55);
+}
+
+/* ==========================================================
+   Grillas y tarjetas
+   ========================================================== */
+
+.grilla {
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
+}
+
+/* Las tarjetas no llevan marco: la imagen ya separa una de otra. Sí llevan
+   una sombra muy suave, apenas para despegarlas del fondo sin que se vean
+   como una caja; el borde se guarda para lo que de verdad necesita marcarse
+   como pieza aparte, como los datos bancarios o un aviso. */
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  transition: transform 0.22s ease;
+}
+
+.tarjeta__imagen {
+  border-radius: var(--radio);
+  margin-bottom: 0.9rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 20px -14px rgb(0 0 0 / 0.35);
+  transition: box-shadow 0.22s ease;
+}
+
+.tarjeta__imagen img,
+.tarjeta__imagen .marcador-imagen {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  width: 100%;
+  /* Más lento y con una curva que va perdiendo velocidad hacia el final
+     (en vez de "ease", que la corta seca): el zoom de la tarjeta se ve como
+     un acercamiento, no como un salto. Se mantiene igual al achicarse. */
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  a.tarjeta:hover {
+    transform: translateY(-4px);
+  }
+
+  a.tarjeta:hover .tarjeta__imagen {
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.08), 0 14px 28px -14px rgb(0 0 0 / 0.4);
+  }
+
+  a.tarjeta:hover .tarjeta__imagen img,
+  a.tarjeta:hover .tarjeta__imagen .marcador-imagen {
+    transform: scale(1.06);
+  }
+}
+
+a.tarjeta:hover h3 {
+  color: var(--verde);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.tarjeta__cuerpo {
+  padding: 0;
+}
+
+.tarjeta__meta {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pizarra);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  margin-bottom: 0.3rem;
+}
+
+.tarjeta p {
+  font-size: 0.95rem;
+  color: var(--tinta-suave);
+  margin-bottom: 0;
+}
+
+/* Las tarjetas de alianzas sí son piezas sueltas sin imagen, así que ahí el
+   marco sí cumple una función. */
+.tarjeta--marco {
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--papel);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 20px -14px rgb(0 0 0 / 0.25);
+}
+
+.tarjeta--marco .tarjeta__cuerpo {
+  padding: 1.35rem;
+}
+
+/* ==========================================================
+   Página de un proyecto
+   ========================================================== */
+
+.miga {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+  margin-bottom: 1.2rem;
+}
+
+.miga a {
+  text-decoration: none;
+}
+
+.miga a:hover {
+  text-decoration: underline;
+}
+
+.miga__separador {
+  width: 0.7em;
+  height: 0.7em;
+  color: var(--borde);
+}
+
+.entradilla {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.4rem);
+  line-height: 1.4;
+  color: var(--tinta-suave);
+  max-width: 42ch;
+  margin-bottom: 1.75rem;
+}
+
+.proyecto__portada {
+  aspect-ratio: 30 / 9;
+  object-fit: cover;
+  width: 100%;
+  border-radius: var(--radio);
+  margin-bottom: 1.5rem;
+}
+
+/* El texto manda; la ficha de datos va al costado y no compite con él. */
+.proyecto__cuerpo {
+  display: grid;
+  gap: 2rem 3rem;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1.15fr);
+  align-items: start;
+}
+
+@media (max-width: 52rem) {
+  .proyecto__cuerpo {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ficha {
+  border-top: 2px solid var(--verde);
+  padding-top: 1rem;
+}
+
+.ficha dl {
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ficha dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--pizarra);
+  margin-bottom: 0.15rem;
+}
+
+.ficha dd {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* ==========================================================
+   Galería
+   ========================================================== */
+
+.galeria {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+
+.galeria figure {
+  margin: 0;
+}
+
+.galeria img,
+.galeria .marcador-imagen {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+  border-radius: var(--radio);
+}
+
+.galeria figcaption {
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+  margin-top: 0.4rem;
+}
+
+/* ==========================================================
+   Marcador de imagen faltante
+   ========================================================== */
+
+.marcador-imagen {
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-items: center;
+  background: var(--arena);
+  border: 1px dashed var(--arena-honda);
+  border-radius: var(--radio);
+  color: var(--tinta-suave);
+  font-size: 0.78rem;
+  text-align: center;
+  padding: 1rem;
+  line-height: 1.4;
+}
+
+/* ==========================================================
+   Aviso de contenido pendiente
+   ========================================================== */
+
+.pendiente {
+  border-left: 3px solid var(--cafe-claro);
+  background: #f8f7e2;
+  padding: 0.85rem 1rem;
+  border-radius: 0 var(--radio) var(--radio) 0;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+  max-width: 65ch;
+}
+
+.pendiente strong {
+  color: var(--cafe);
+}
+
+/* ==========================================================
+   Carrusel: slideshow automático de fotos de proyectos
+   ========================================================== */
+
+/* Los controles van superpuestos a la foto (ver `.carrusel__controles` más
+   abajo), así que necesitan un ancestro posicionado del tamaño exacto de la
+   vitrina: este `position: relative` es ese ancestro. */
+.carrusel {
+  position: relative;
+}
+
+.carrusel__vitrina {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radio);
+  overflow: hidden;
+  background: var(--arena-honda);
+}
+
+/* Las diapositivas inactivas quedan apiladas debajo, invisibles y fuera del
+   flujo del mouse y del teclado: sin esto, el fundido de una tapa a la otra
+   dejaría el enlace de la anterior clicable por encima. */
+.carrusel__diapositiva {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.carrusel__diapositiva--activa {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.carrusel__diapositiva img,
+.carrusel__diapositiva .marcador-imagen {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 0;
+  border: 0;
+  margin: 0;
+}
+
+.carrusel__etiqueta {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 2.5rem 1.4rem 1.2rem;
+  background: linear-gradient(0deg, rgb(0 0 0 / 0.65), transparent);
+  color: var(--papel);
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+  line-height: 1.25;
+}
+
+/* Las flechas van sobre la foto, no debajo: a todo el alto de la portada
+   dejarlas en una fila aparte habría significado o una franja en blanco bajo
+   la imagen, o encogerla para hacerle espacio. Semitransparentes para no
+   taparla del todo. */
+.carrusel__controles {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 0.7rem;
+}
+
+.carrusel__contador {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.8rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.4);
+  backdrop-filter: blur(3px);
+  font-size: 0.8rem;
+  color: var(--papel);
+  font-variant-numeric: tabular-nums;
+}
+
+.boton-icono {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 255 255 / 0.55);
+  background: rgb(255 255 255 / 0.25);
+  backdrop-filter: blur(3px);
+  border-radius: 50%;
+  width: 2.6rem;
+  height: 2.6rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--papel);
+  transition: background-color 0.22s ease, border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+.boton-icono:hover {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--papel);
+}
+
+/* ==========================================================
+   Botón
+   ========================================================== */
+
+.boton {
+  display: inline-block;
+  background: var(--acento);
+  color: var(--papel);
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: background-color 0.22s ease;
+}
+
+.boton:hover {
+  background: var(--acento-oscuro);
+  color: var(--papel);
+}
+
+/* ==========================================================
+   Equipo
+   ========================================================== */
+
+.equipo {
+  display: grid;
+  gap: 2.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+
+.equipo__retrato {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  max-width: 11rem;
+  margin-bottom: 0.9rem;
+  border: 0;
+}
+
+/* ==========================================================
+   Líneas de servicio
+   ========================================================== */
+
+.lineas {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.linea {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: 0 1.25rem;
+  align-items: start;
+}
+
+.linea__numero {
+  font-family: var(--fuente-titulo);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--pizarra);
+  line-height: 1;
+  padding-top: 0.1em;
+}
+
+.linea h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.35em;
+}
+
+.linea__datos {
+  margin: 0.9rem 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  font-size: 0.9rem;
+  max-width: 65ch;
+}
+
+.linea__datos dt {
+  color: var(--pizarra);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  padding-top: 0.35em;
+}
+
+.linea__datos dd {
+  margin: 0;
+}
+
+/* ==========================================================
+   Descargas
+   ========================================================== */
+
+.descargas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.descarga {
+  border-bottom: 1px solid var(--borde);
+  padding: 0.9rem 0;
+}
+
+.descarga:last-child {
+  border-bottom: 0;
+}
+
+.descarga__enlace {
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.descarga__peso {
+  color: var(--tinta-suave);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.descarga p {
+  margin: 0.3rem 0 0;
+  font-size: 0.93rem;
+  color: var(--tinta-suave);
+}
+
+/* ==========================================================
+   Datos de la cuenta bancaria
+   ========================================================== */
+
+.datos-cuenta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1.5rem;
+  margin: 0 0 1.75rem;
+  padding: 1.35rem 1.5rem;
+  background: var(--arena);
+  border-left: 3px solid var(--verde);
+  border-radius: 0 var(--radio) var(--radio) 0;
+  max-width: 34rem;
+}
+
+.datos-cuenta dt {
+  color: var(--tinta-suave);
+  font-size: 0.85rem;
+  padding-top: 0.1em;
+}
+
+.datos-cuenta dd {
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================
+   Cifras (sección "Sobre Llaftun" del inicio)
+   ========================================================== */
+
+.cifras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin-top: 1.75rem;
+}
+
+.cifras__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.cifras__numero {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2rem, 1.6rem + 1.5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--verde-profundo);
+  line-height: 1;
+}
+
+.cifras__etiqueta {
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+  margin-top: 0.4rem;
+}
+
+/* ==========================================================
+   Grilla de Instagram (marcadores mientras no hay widget)
+   ========================================================== */
+
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 30rem) {
+  .instagram-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   Colabora con nosotros: cierre de la portada de inicio
+   ========================================================== */
+
+/* A propósito NO sigue la paleta tierra/verde del descenso al bosque: es un
+   cierre, no un paso más, y el contraste cálido lo separa del resto de la
+   página para que se note que es la invitación a actuar. */
+.cta-colabora {
+  background: linear-gradient(120deg, var(--verde-profundo) 0%, var(--acento) 145%);
+  color: var(--papel);
+}
+
+.cta-colabora__cuerpo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2.5rem;
+  padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+}
+
+.cta-colabora__cuerpo h2 {
+  color: var(--papel);
+  margin-bottom: 0.4rem;
+}
+
+.cta-colabora__cuerpo p {
+  color: var(--verde-palido);
+  max-width: 46ch;
+  margin-bottom: 0;
+}
+
+.cta-colabora .boton {
+  flex: none;
+  background: var(--papel);
+  color: var(--verde-profundo);
+}
+
+.cta-colabora .boton:hover {
+  background: var(--verde-palido);
+  color: var(--verde-noche);
+}
+
+/* ==========================================================
+   Pie de página: el suelo, color tierra como las raíces del logo
+   ========================================================== */
+
+.pie {
+  background: var(--cafe-profundo);
+  color: #d5d0ba;
+  padding-block: 3rem 2.5rem;
+}
+
+.pie a {
+  color: var(--arena);
+}
+
+.pie a:hover {
+  color: var(--papel);
+}
+
+.pie__enlace-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pie__enlace-social .icono {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.pie h2 {
+  color: var(--papel);
+  font-size: 1.05rem;
+  margin-bottom: 0.7rem;
+}
+
+.pie p {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.pie__columnas {
+  display: grid;
+  gap: 2.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+@media (max-width: 34rem) {
+  .linea {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .cabecera__interior {
+    justify-content: center;
+  }
+
+  .navegacion {
+    justify-content: center;
+  }
+}
+
+/* ==========================================================
+   Aparición al hacer scroll
+   ========================================================== */
+
+.aparece {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.aparece--visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

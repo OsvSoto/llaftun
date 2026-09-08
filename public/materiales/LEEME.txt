@@ -1,0 +1,34 @@
+CÓMO AGREGAR MATERIAL EDUCATIVO AL SITIO
+========================================
+
+Esta carpeta contiene el material pedagógico descargable y el archivo
+index.json que lo lista en la página "Material educativo" del sitio.
+
+Para agregar un documento nuevo NO hace falta tocar el código ni volver a
+publicar el sitio. Bastan dos pasos:
+
+1. Subir el PDF a esta misma carpeta, por FTP.
+   Usar nombres en minúsculas, sin espacios, tildes ni paréntesis.
+   Ejemplo: guia-de-aves.pdf
+
+2. Agregar una entrada al archivo index.json, respetando el formato:
+
+   {
+     "id": "guia-de-aves",
+     "titulo": "Guía de aves del valle",
+     "descripcion": "Una o dos frases explicando de qué se trata.",
+     "archivo": "/materiales/guia-de-aves.pdf",
+     "peso": "3,1 MB"
+   }
+
+   Ojo con las comas: cada entrada va separada por una coma, y la última NO
+   lleva coma antes del corchete de cierre.
+
+Para quitar un documento, borrar su entrada del index.json (y el PDF, si ya
+no se va a usar).
+
+Recomendaciones:
+- Mantener los PDF bajo los 10 MB. Si uno pesa más, comprimirlo antes de
+  subirlo; si no, la descarga se hace muy lenta en conexiones móviles.
+- No subir videos a esta carpeta. Los videos van a YouTube o Vimeo y se
+  enlazan desde ahí.

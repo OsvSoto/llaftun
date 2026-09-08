@@ -1,0 +1,54 @@
+IMÁGENES DEL SITIO
+==================
+
+Las rutas ya están declaradas en los archivos de src/content/. Basta dejar
+aquí el archivo con el nombre exacto y aparece solo: mientras no exista, la
+página muestra un marcador que dice qué foto falta.
+
+CARPETAS
+--------
+
+  equipo/      retratos del directorio
+  proyectos/   foto principal de cada proyecto
+  areas/       una foto por área de acción
+  (raíz)       logotipo
+
+EQUIPO — nombres exactos que espera el sitio
+--------------------------------------------
+
+  equipo/claudia-almuna.jpg
+  equipo/david-uribe.jpg
+  equipo/rodrigo-palacios.jpg
+  equipo/pilar-leiva.jpg
+  equipo/ivonne-salazar.jpg
+
+  Se muestran en círculo, así que conviene un recorte CUADRADO con la cara
+  centrada y algo de aire alrededor. Mínimo 600x600 px.
+
+PROYECTOS
+---------
+
+  El nombre del archivo es el `slug` del proyecto en src/content/proyectos.ts.
+  Por ejemplo:
+
+  proyectos/biodiversidad-de-mi-territorio.jpg
+  proyectos/cooperativa-de-trabajo-inclusiva.jpg
+
+  Horizontales, proporción 3:2, mínimo 1200 px de ancho.
+
+ÁREAS
+-----
+
+  areas/educacion-ambiental.jpg
+  areas/bienestar.jpg
+
+  Horizontales, mínimo 1600 px de ancho.
+
+ANTES DE SUBIR
+--------------
+
+- Archivos originales, no fotos reenviadas por WhatsApp: la compresión de
+  WhatsApp no se recupera y se nota al ocupar el ancho de una pantalla.
+- Nombres en minúsculas, sin espacios, sin tildes y sin paréntesis.
+- Bajo 300 KB por imagen. Si pesan más, comprimirlas antes (squoosh.app
+  sirve y no requiere instalar nada).
