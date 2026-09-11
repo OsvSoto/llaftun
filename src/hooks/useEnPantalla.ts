@@ -5,6 +5,11 @@ import { useEffect, useRef, useState } from 'react'
  * al hacer scroll en vez de mostrar todo de golpe. Se activa una sola vez:
  * una vez visto, el elemento se queda visible aunque se vuelva a scrollear
  * hacia arriba.
+ *
+ * Se dispara apenas antes de que el elemento asome por abajo (5% del alto de
+ * la ventana): así nunca se ve un hueco vacío esperando, pero la animación
+ * todavía ocurre a la vista. Antes se adelantaba 120px y el movimiento
+ * terminaba casi entero fuera de pantalla.
  */
 export default function useEnPantalla<T extends HTMLElement>() {
   const ref = useRef<T>(null)
@@ -21,7 +26,7 @@ export default function useEnPantalla<T extends HTMLElement>() {
           observador.disconnect()
         }
       },
-      { threshold: 0.01, rootMargin: '0px 0px 120px 0px' },
+      { threshold: 0, rootMargin: '0px 0px 5% 0px' },
     )
     observador.observe(el)
     return () => observador.disconnect()

@@ -1,5 +1,6 @@
 import { sitio } from '../content/sitio'
 import Icono from './Icono'
+import AlAparecer from './AlAparecer'
 
 /**
  * Sección de últimas publicaciones de redes sociales.
@@ -27,20 +28,22 @@ export default function SeccionInstagram() {
   return (
     <section className="seccion estrato--piso">
       <div className="contenedor">
-        <h2>Últimas novedades</h2>
-        <p>
-          Compartimos el día a día de nuestros proyectos en Instagram: talleres,
-          salidas educativas y actividades con las comunidades con las que
-          trabajamos.
-        </p>
+        <AlAparecer escalonado>
+          <h2>Últimas novedades</h2>
+          <p>
+            Compartimos el día a día de nuestros proyectos en Instagram: talleres,
+            salidas educativas y actividades con las comunidades con las que
+            trabajamos.
+          </p>
+        </AlAparecer>
 
-        <div className="instagram-grid">
+        <AlAparecer escalonado className="instagram-grid">
           {[1, 2, 3].map((n) => (
             <div key={n} className="marcador-imagen" style={{ aspectRatio: '1' }}>
               Publicación de Instagram (widget pendiente de instalar)
             </div>
           ))}
-        </div>
+        </AlAparecer>
 
         <p style={{ marginTop: '1.25rem' }}>
           <a

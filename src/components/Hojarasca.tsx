@@ -31,7 +31,7 @@ export default function Hojarasca({ className }: { className?: string }) {
           <path
             d="M0 0 C 9 -11 27 -11 36 0 C 27 11 9 11 0 0 Z"
             fill="currentColor"
-            fillOpacity="0.24"
+            fillOpacity="0.42"
           />
           <path d="M0 0 H 36" stroke="currentColor" strokeWidth="1.1" fill="none" />
         </g>
@@ -41,7 +41,7 @@ export default function Hojarasca({ className }: { className?: string }) {
           <path
             d="M0 0 C 10 -15 32 -15 44 0 C 32 15 10 15 0 0 Z"
             fill="currentColor"
-            fillOpacity="0.24"
+            fillOpacity="0.42"
           />
           <path d="M0 0 H 44" stroke="currentColor" strokeWidth="1.2" fill="none" />
         </g>
@@ -51,7 +51,7 @@ export default function Hojarasca({ className }: { className?: string }) {
           <path
             d="M0 0 C 6 -9 24 -16 40 0 C 24 16 6 9 0 0 Z"
             fill="currentColor"
-            fillOpacity="0.24"
+            fillOpacity="0.42"
           />
           <path d="M0 0 H 40" stroke="currentColor" strokeWidth="1.1" fill="none" />
         </g>
@@ -61,7 +61,7 @@ export default function Hojarasca({ className }: { className?: string }) {
           <path
             d="M0 0 C 12 -7 38 -7 52 0 C 38 7 12 7 0 0 Z"
             fill="currentColor"
-            fillOpacity="0.24"
+            fillOpacity="0.42"
           />
           <path d="M0 0 H 52" stroke="currentColor" strokeWidth="1" fill="none" />
         </g>
@@ -71,7 +71,7 @@ export default function Hojarasca({ className }: { className?: string }) {
           <path
             d="M0 0 C 9 -13 29 -13 38 0 C 29 13 9 13 0 0 Z"
             fill="currentColor"
-            fillOpacity="0.24"
+            fillOpacity="0.42"
           />
           <path d="M0 0 H 38" stroke="currentColor" strokeWidth="1.4" fill="none" />
           <path

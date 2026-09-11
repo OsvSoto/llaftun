@@ -5,12 +5,18 @@ import {
   agruparPorCategoria,
 } from '../content/documentos'
 import type { DocumentoTransparencia } from '../types/content'
+import Pagina from '../components/Pagina'
+import AlAparecer from '../components/AlAparecer'
 
 type Estado =
   | { fase: 'cargando' }
   | { fase: 'listo'; documentos: DocumentoTransparencia[] }
   | { fase: 'error' }
 
+/**
+ * Transparencia. Sin foto en la cabecera, solo el verde: es una página de
+ * consulta de documentos, y conviene que se vea sobria.
+ */
 export default function Transparencia() {
   const [estado, setEstado] = useState<Estado>({ fase: 'cargando' })
 
@@ -27,24 +33,25 @@ export default function Transparencia() {
   }, [])
 
   return (
-    <div className="pagina">
-      <div className="contenedor">
-        <h1>Transparencia</h1>
-        <p>{introTransparencia}</p>
+    <Pagina
+      antetitulo="Institucional"
+      titulo="Transparencia"
+      entradilla={introTransparencia}
+    >
+      {estado.fase === 'cargando' && <p>Cargando documentos…</p>}
 
-        {estado.fase === 'cargando' && <p>Cargando documentos…</p>}
+      {estado.fase === 'error' && (
+        <p role="alert">
+          No pudimos cargar el listado de documentos en este momento.
+          Inténtalo más tarde.
+        </p>
+      )}
 
-        {estado.fase === 'error' && (
-          <p role="alert">
-            No pudimos cargar el listado de documentos en este momento.
-            Inténtalo más tarde.
-          </p>
-        )}
-
-        {estado.fase === 'listo' &&
-          agruparPorCategoria(estado.documentos).map(
-            ([categoria, documentos]) => (
-              <section className="seccion" key={categoria}>
+      {estado.fase === 'listo' &&
+        agruparPorCategoria(estado.documentos).map(
+          ([categoria, documentos]) => (
+            <section className="seccion" key={categoria}>
+              <AlAparecer escalonado>
                 <h2>{categoria}</h2>
                 <ul className="descargas">
                   {documentos.map((documento) => (
@@ -64,10 +71,10 @@ export default function Transparencia() {
                     </li>
                   ))}
                 </ul>
-              </section>
-            ),
-          )}
-      </div>
-    </div>
+              </AlAparecer>
+            </section>
+          ),
+        )}
+    </Pagina>
   )
 }

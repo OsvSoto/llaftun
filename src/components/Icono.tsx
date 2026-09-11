@@ -2,9 +2,11 @@ const trazos = {
   'chevron-izquierda': 'M15 5 L8 12 L15 19',
   'chevron-derecha': 'M9 5 L16 12 L9 19',
   'flecha-derecha': 'M4 12 H17 M12 6 L18 12 L12 18',
+  bienestar:
+    'M12 20 C12 20 4 14 4 8.5 C4 5.5 6.5 4 9 4 C10.5 4 12 5 12 6.5 C12 5 13.5 4 15 4 C17.5 4 20 5.5 20 8.5 C20 14 12 20 12 20 Z',
 } as const
 
-type Tipo = keyof typeof trazos | 'instagram' | 'youtube'
+type Tipo = keyof typeof trazos | 'instagram' | 'youtube' | 'play'
 
 /**
  * Un solo estilo de ícono para todo el sitio: trazo simple en currentColor,
@@ -52,6 +54,20 @@ export default function Icono({
           strokeWidth="1.8"
         />
         <circle cx="17.1" cy="6.9" r="1.15" fill="currentColor" />
+      </svg>
+    )
+  }
+
+  if (tipo === 'play') {
+    return (
+      <svg
+        className={claseCompleta}
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M10 8.3 L16.2 12 L10 15.7 Z" fill="currentColor" />
       </svg>
     )
   }

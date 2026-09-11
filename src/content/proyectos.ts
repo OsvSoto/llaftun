@@ -1,4 +1,5 @@
 import type { Proyecto } from '../types/content'
+import { videos } from './materiales'
 
 /**
  * Proyectos de la fundación.
@@ -8,7 +9,7 @@ import type { Proyecto } from '../types/content'
  * el sitio actual los tenía todos apilados debajo de las líneas de servicio,
  * donde nadie los encontraba.
  *
- * `destacado: true` los pone en el carrusel y en la portada. El resto vive en
+ * `destacado: true` los pone en la página de inicio. El resto vive en
  * la página /proyectos.
  *
  * PENDIENTE: confirmar con la fundación cuáles son los destacados, y
@@ -50,6 +51,7 @@ export const proyectos: Proyecto[] = [
     area: 'educacion-ambiental',
     periodo: '2024',
     financiamiento: 'Fondo de Protección Ambiental, Ministerio del Medio Ambiente',
+    video: videos.find((v) => v.id === 'tesoro-del-bosque-esclerofilo'),
     imagenPrincipal: {
       src: '/img/proyectos/tesoro-del-bosque-esclerofilo/principal.jpg',
       alt: 'Estudiantes y docentes posando con plantas nativas en macetas, frente a un cerro cubierto de bosque esclerófilo',
@@ -58,6 +60,30 @@ export const proyectos: Proyecto[] = [
       {
         src: '/img/proyectos/tesoro-del-bosque-esclerofilo/1.jpg',
         alt: 'Actividad del proyecto en el bosque nativo',
+      },
+      {
+        src: '/img/proyectos/tesoro-del-bosque-esclerofilo/2.jpg',
+        alt: ' ',
+      },
+      {
+        src: '/img/proyectos/tesoro-del-bosque-esclerofilo/3.jpg',
+        alt: ' ',
+      },
+      {
+        src: '/img/proyectos/tesoro-del-bosque-esclerofilo/4.jpg',
+        alt: ' ',
+      },
+      {
+        src: '/img/proyectos/tesoro-del-bosque-esclerofilo/5.jpg',
+        alt: ' ',
+      },
+      {
+        src: '/img/proyectos/tesoro-del-bosque-esclerofilo/6.jpg',
+        alt: ' ',
+      },
+      {
+        src: '/img/proyectos/tesoro-del-bosque-esclerofilo/7.jpg',
+        alt: ' ',
       },
     ],
     destacado: true,
@@ -138,6 +164,7 @@ export const proyectos: Proyecto[] = [
     imagenPrincipal: {
       src: '/img/proyectos/centro-de-arte-y-naturaleza-aliwen-lawen/principal.jpg',
       alt: 'Jornada ecológica en el Centro de Arte y Naturaleza Aliwen Lawen',
+      encuadre: 'center 20%',
     },
     destacado: false,
   },
@@ -230,6 +257,8 @@ export const proyectos: Proyecto[] = [
     imagenPrincipal: {
       src: '/img/proyectos/cooperativa-de-trabajo-inclusiva/principal.jpg',
       alt: 'Estudiantes de la escuela especial trabajando con arcilla en una mesa de taller, aplanando planchas con uslero y estampando hojas y flores',
+      // Foto cuadrada: centrada, un marco apaisado cortaba las cabezas del fondo.
+      encuadre: 'center 35%',
     },
     destacado: true,
   },
@@ -248,6 +277,7 @@ export const proyectos: Proyecto[] = [
     imagenPrincipal: {
       src: '/img/proyectos/hipoterapia-expresion-y-contencion-emocional/principal.jpg',
       alt: 'Un joven montado a caballo en el picadero, acompañado por dos monitores que sostienen las riendas',
+      encuadre: 'center 25%',
     },
     destacado: true,
   },
@@ -319,6 +349,7 @@ export const proyectos: Proyecto[] = [
     imagenPrincipal: {
       src: '/img/proyectos/escuela-itinerante-de-artes-visuales/principal.jpg',
       alt: 'Cuatro momentos de los talleres: mujeres pintando sobre lienzos y trabajando con materiales de dibujo en mesas comunes',
+      encuadre: 'center 75%',
     },
     destacado: false,
   },
@@ -348,6 +379,7 @@ export const proyectos: Proyecto[] = [
     imagenPrincipal: {
       src: '/img/proyectos/autocuidado-dia-de-la-mujer/principal.jpg',
       alt: 'Taller de autocuidado con mujeres en la localidad de Santa Cruz',
+      encuadre: 'center 65%',
     },
     destacado: false,
   },
@@ -366,6 +398,7 @@ export const proyectos: Proyecto[] = [
     imagenPrincipal: {
       src: '/img/proyectos/red-de-colaboracion-local/principal.jpg',
       alt: 'Emprendedoras de Chimbarongo en la feria artesanal de la comuna',
+      encuadre: 'center 30%',
     },
     destacado: false,
   },
@@ -426,15 +459,6 @@ export const proyectos: Proyecto[] = [
 ]
 
 export const proyectosDestacados = proyectos.filter((p) => p.destacado)
-
-/**
- * Proyectos que tienen fotografía propia, en el mismo orden en que aparecen
- * arriba. Alimenta el carrusel automático de la portada: como ahí las fotos
- * pasan solas y sin descripción, conviene que muestre variedad (hoy 19 de 21
- * proyectos) y no se limite a los 4 destacados que ya se explican con texto
- * en la sección "En qué trabajamos".
- */
-export const proyectosConImagen = proyectos.filter((p) => p.imagenPrincipal)
 
 export function buscarProyecto(slug: string): Proyecto | undefined {
   return proyectos.find((p) => p.slug === slug)

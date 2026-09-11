@@ -20,6 +20,10 @@ export const sitio = {
     correoGeneral: 'contacto@fundacionllaftun.cl', // PENDIENTE: confirmar que existe
     correoDonaciones: 'donaciones@fundacionllaftun.cl',
     comuna: 'Chimbarongo, Región de O’Higgins',
+    // Rescatada del sitio actual (portada, Quiénes somos y Contacto): no
+    // estaba en ningún archivo de contenido de este sitio todavía. Sin
+    // número (SN = "sin número"), tal como la publica la fundación.
+    direccion: 'Santa Isabel SN',
   },
 
   redes: {

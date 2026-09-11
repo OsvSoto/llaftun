@@ -36,6 +36,7 @@ export default function Figura({
       className={className}
       src={imagen.src}
       alt={imagen.alt}
+      style={imagen.encuadre ? { objectPosition: imagen.encuadre } : undefined}
       loading="lazy"
       decoding="async"
       onError={() => setFalló(true)}

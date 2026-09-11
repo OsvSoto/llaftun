@@ -4,7 +4,10 @@ import {
   botonFlow,
   formularios,
 } from '../content/colabora'
+import { cabeceras } from '../content/cabeceras'
 import AvisoPendiente from '../components/AvisoPendiente'
+import Pagina from '../components/Pagina'
+import AlAparecer from '../components/AlAparecer'
 
 /**
  * Colabora.
@@ -14,12 +17,14 @@ import AvisoPendiente from '../components/AvisoPendiente'
  */
 export default function Colabora() {
   return (
-    <div className="pagina">
-      <div className="contenedor">
-        <h1>Colabora con nuestra fundación</h1>
-        <p>{introColabora}</p>
-
-        <section className="seccion">
+    <Pagina
+      antetitulo="Fundación Llaftun"
+      titulo="Colabora con nuestra fundación"
+      entradilla={introColabora}
+      foto={cabeceras.colabora}
+    >
+      <section className="seccion">
+        <AlAparecer escalonado>
           <h2>Socio donante</h2>
           <p>
             Puedes realizar aportes mensuales a la fundación. Registra tus datos
@@ -42,9 +47,11 @@ export default function Colabora() {
               sitio actual apunta a la página de edición y da error de permisos.
             </AvisoPendiente>
           )}
-        </section>
+        </AlAparecer>
+      </section>
 
-        <section className="seccion">
+      <section className="seccion">
+        <AlAparecer escalonado>
           <h2>Donaciones</h2>
           <p>
             Puedes realizar una transferencia bancaria indicando en el detalle
@@ -82,9 +89,11 @@ export default function Colabora() {
               Realiza tu donación
             </a>
           </p>
-        </section>
+        </AlAparecer>
+      </section>
 
-        <section className="seccion">
+      <section className="seccion">
+        <AlAparecer escalonado>
           <h2>Voluntariado</h2>
           <p>
             Puedes inscribirte en nuestro formulario para voluntarias y
@@ -108,8 +117,8 @@ export default function Colabora() {
               sitio actual apunta a la página de edición y da error de permisos.
             </AvisoPendiente>
           )}
-        </section>
-      </div>
-    </div>
+        </AlAparecer>
+      </section>
+    </Pagina>
   )
 }

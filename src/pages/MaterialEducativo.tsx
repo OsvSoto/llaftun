@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { cargarMateriales, videos } from '../content/materiales'
 import { sitio } from '../content/sitio'
+import { cabeceras } from '../content/cabeceras'
 import type { MaterialEducativo as Material } from '../types/content'
-import Figura from '../components/Figura'
 import Icono from '../components/Icono'
+import Pagina from '../components/Pagina'
+import AlAparecer from '../components/AlAparecer'
 
 type Estado =
   | { fase: 'cargando' }
@@ -31,54 +33,51 @@ export default function MaterialEducativo() {
   }, [])
 
   return (
-    <div className="pagina">
-      <div className="contenedor">
-        <h1>Material educativo</h1>
-
-        <Figura descripcionFaltante="estudiantes revisando los materiales pedagógicos" />
-
-        <p>
-          Compartimos de forma libre y gratuita el material pedagógico que
-          hemos desarrollado en nuestros proyectos de educación ambiental.
-          Puedes descargarlo, imprimirlo y usarlo en tu escuela o comunidad.
-        </p>
-
-        <section className="seccion">
+    <Pagina
+      antetitulo="Fundación Llaftun"
+      titulo="Material educativo"
+      entradilla="Compartimos de forma libre y gratuita el material pedagógico que hemos desarrollado en nuestros proyectos de educación ambiental. Puedes descargarlo, imprimirlo y usarlo en tu escuela o comunidad."
+      foto={cabeceras.materialEducativo}
+    >
+      <section className="seccion">
+        <AlAparecer escalonado>
           <h2>Descargas</h2>
+        </AlAparecer>
 
-          {estado.fase === 'cargando' && <p>Cargando material…</p>}
+        {estado.fase === 'cargando' && <p>Cargando material…</p>}
 
-          {estado.fase === 'error' && (
-            <p role="alert">
-              No pudimos cargar el listado de material en este momento.
-              Inténtalo más tarde.
-            </p>
-          )}
+        {estado.fase === 'error' && (
+          <p role="alert">
+            No pudimos cargar el listado de material en este momento.
+            Inténtalo más tarde.
+          </p>
+        )}
 
-          {estado.fase === 'listo' && (
-            <ul className="descargas">
-              {estado.materiales.map((material) => (
-                <li key={material.id} className="descarga">
-                  <a
-                    className="descarga__enlace"
-                    href={material.archivo}
-                    download
-                  >
-                    {material.titulo}
-                  </a>{' '}
-                  {material.peso && (
-                    <span className="descarga__peso">
-                      (PDF, {material.peso})
-                    </span>
-                  )}
-                  <p>{material.descripcion}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+        {estado.fase === 'listo' && (
+          <ul className="descargas">
+            {estado.materiales.map((material) => (
+              <li key={material.id} className="descarga">
+                <a
+                  className="descarga__enlace"
+                  href={material.archivo}
+                  download
+                >
+                  {material.titulo}
+                </a>{' '}
+                {material.peso && (
+                  <span className="descarga__peso">
+                    (PDF, {material.peso})
+                  </span>
+                )}
+                <p>{material.descripcion}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
-        <section className="seccion">
+      <section className="seccion">
+        <AlAparecer escalonado>
           <h2>Videos</h2>
           <p>
             Estos y más videos de nuestros proyectos están en nuestro{' '}
@@ -91,34 +90,34 @@ export default function MaterialEducativo() {
             </a>
             .
           </p>
+        </AlAparecer>
 
-          <div className="grilla">
-            {videos.map((video) => (
-              <div key={video.id}>
-                <iframe
-                  src={video.urlEmbed}
-                  title={video.titulo}
-                  allowFullScreen
-                  loading="lazy"
-                  style={{ width: '100%', aspectRatio: '16 / 9', border: 0 }}
-                />
-                <h3>{video.titulo}</h3>
-                {video.descripcion && <p>{video.descripcion}</p>}
-              </div>
-            ))}
-          </div>
+        <div className="grilla">
+          {videos.map((video, indice) => (
+            <AlAparecer key={video.id} retraso={indice * 120}>
+              <iframe
+                src={video.urlEmbed}
+                title={video.titulo}
+                allowFullScreen
+                loading="lazy"
+                style={{ width: '100%', aspectRatio: '16 / 9', border: 0 }}
+              />
+              <h3>{video.titulo}</h3>
+              {video.descripcion && <p>{video.descripcion}</p>}
+            </AlAparecer>
+          ))}
+        </div>
 
-          <p style={{ marginTop: '1.75rem' }}>
-            <a
-              href={sitio.redes.youtube}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver todos los videos en YouTube <Icono tipo="flecha-derecha" />
-            </a>
-          </p>
-        </section>
-      </div>
-    </div>
+        <p style={{ marginTop: '1.75rem' }}>
+          <a
+            href={sitio.redes.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ver todos los videos en YouTube <Icono tipo="flecha-derecha" />
+          </a>
+        </p>
+      </section>
+    </Pagina>
   )
 }

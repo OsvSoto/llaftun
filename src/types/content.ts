@@ -17,6 +17,35 @@ export interface Imagen {
   alt: string
   /** Crédito o autoría, si corresponde. */
   credito?: string
+  /**
+   * Qué parte de la foto conservar cuando un marco la recorta (portada,
+   * tarjetas). Es un valor de `object-position` de CSS, p.ej. "center 30%"
+   * para proteger rostros que quedan en el tercio superior. Por defecto, el
+   * centro.
+   */
+  encuadre?: string
+}
+
+/** Foto de la portada a pantalla completa. */
+export interface FotoPortada {
+  /** Versión de 1280px: celulares, y la misma que usa la galería del proyecto. */
+  imagen: Imagen
+  /** Versión de 2400px de la misma foto, para pantallas anchas. */
+  srcGrande: string
+  /** Slug del proyecto al que lleva el rótulo de la foto. */
+  proyecto: string
+}
+
+/** Foto de la cabecera de una página interior (ver components/Pagina). */
+export interface FotoCabecera {
+  imagen: Imagen
+  /** Versión de 2400px de la misma foto, si existe, para pantallas anchas. */
+  srcGrande?: string
+  /**
+   * Para fotos sin resolución suficiente para cubrir todo el ancho: se
+   * muestran difuminadas, como un fondo de color y no como fotografía.
+   */
+  difuminada?: boolean
 }
 
 /** Persona del directorio o del equipo. */
@@ -58,7 +87,8 @@ export interface Proyecto {
   coordinacion?: string
   imagenPrincipal?: Imagen
   galeria?: Imagen[]
-  /** Si es true, aparece en el carrusel y en la grilla de la página de inicio. */
+  video?: Video
+  /** Si es true, aparece en la grilla de proyectos destacados del inicio. */
   destacado: boolean
 }
 

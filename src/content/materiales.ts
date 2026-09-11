@@ -1,4 +1,4 @@
-import type { MaterialEducativo, Video } from '../types/content'
+import type { Imagen, MaterialEducativo, Video } from '../types/content'
 import { cargarIndice } from './indice'
 
 /**
@@ -11,6 +11,11 @@ import { cargarIndice } from './indice'
 
 export function cargarMateriales(signal?: AbortSignal) {
   return cargarIndice<MaterialEducativo>('/materiales/index.json', signal)
+}
+
+export const imagenApertura: Imagen = {
+  src: '/img/paginas/material-educativo.jpg',
+  alt: 'Una mano sostiene una guía ilustrada de árboles nativos del bosque esclerófilo, con el boldo, el litre, el quillay y el maitén',
 }
 
 /**

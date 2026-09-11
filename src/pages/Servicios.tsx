@@ -1,4 +1,7 @@
 import { introServicios, lineasDeServicio } from '../content/servicios'
+import { cabeceras } from '../content/cabeceras'
+import Pagina from '../components/Pagina'
+import AlAparecer from '../components/AlAparecer'
 
 /**
  * Servicios.
@@ -9,11 +12,13 @@ import { introServicios, lineasDeServicio } from '../content/servicios'
  */
 export default function Servicios() {
   return (
-    <div className="pagina">
-      <div className="contenedor">
-        <h1>Servicios</h1>
-        <p>{introServicios}</p>
-
+    <Pagina
+      antetitulo="Fundación Llaftun"
+      titulo="Servicios"
+      entradilla={introServicios}
+      foto={cabeceras.servicios}
+    >
+      <AlAparecer>
         <ol className="lineas">
           {lineasDeServicio.map((linea, i) => (
             <li key={linea.id} className="linea">
@@ -43,7 +48,7 @@ export default function Servicios() {
             </li>
           ))}
         </ol>
-      </div>
-    </div>
+      </AlAparecer>
+    </Pagina>
   )
 }

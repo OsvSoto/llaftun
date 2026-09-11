@@ -59,15 +59,4 @@ export const equipo: MiembroEquipo[] = [
       alt: 'Retrato de Pilar Javiera Leiva Cáceres',
     },
   },
-  {
-    id: 'ivonne-salazar',
-    nombre: 'Ivonne Salazar Sánchez',
-    cargo: 'Fundadora',
-    descripcion:
-      'Madre, artista visual y terapeuta. Creó esta organización con el objetivo de generar instancias de aprendizaje y experimentación en torno al arte, la autosustentabilidad y la salud natural.',
-    foto: {
-      src: '/img/equipo/ivonne-salazar.jpg',
-      alt: 'Retrato de Ivonne Salazar Sánchez',
-    },
-  },
 ]
