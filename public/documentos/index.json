@@ -4,35 +4,40 @@
     "titulo": "Balance 2020",
     "categoria": "Balances",
     "periodo": "2020",
-    "archivo": "/documentos/balance-2020.pdf"
+    "archivo": "/documentos/balance-2020.pdf",
+    "peso": "196 KB"
   },
   {
     "id": "balance-2021",
     "titulo": "Balance 2021",
     "categoria": "Balances",
     "periodo": "2021",
-    "archivo": "/documentos/balance-2021.pdf"
+    "archivo": "/documentos/balance-2021.pdf",
+    "peso": "323 KB"
   },
   {
     "id": "balance-2022",
     "titulo": "Balance 2022",
     "categoria": "Balances",
     "periodo": "2022",
-    "archivo": "/documentos/balance-2022.pdf"
+    "archivo": "/documentos/balance-2022.pdf",
+    "peso": "846 KB"
   },
   {
     "id": "balance-2023",
     "titulo": "Balance 2023",
     "categoria": "Balances",
     "periodo": "2023",
-    "archivo": "/documentos/balance-2023.pdf"
+    "archivo": "/documentos/balance-2023.pdf",
+    "peso": "193 KB"
   },
   {
     "id": "memoria-2022",
     "titulo": "Memoria 2022",
     "categoria": "Memorias",
     "periodo": "2022",
-    "archivo": "/documentos/memoria-2022.pdf"
+    "archivo": "/documentos/memoria-2022.pdf",
+    "peso": "41,2 MB"
   },
   {
     "id": "memoria-2023",
@@ -40,7 +45,7 @@
     "categoria": "Memorias",
     "periodo": "2023",
     "archivo": "/documentos/memoria-2023.pdf",
-    "peso": "33,3 MB"
+    "peso": "31,8 MB"
   },
   {
     "id": "memoria-2024",
@@ -48,35 +53,39 @@
     "categoria": "Memorias",
     "periodo": "2024",
     "archivo": "/documentos/memoria-2024.pdf",
-    "peso": "20,4 MB"
+    "pendiente": true
   },
   {
     "id": "estado-resultados-2022-2023",
     "titulo": "Estado de resultados 2022-2023",
     "categoria": "Estados de resultados",
     "periodo": "2022-2023",
-    "archivo": "/documentos/estado-resultados-2022-2023.pdf"
+    "archivo": "/documentos/estado-resultado-2022-2023.pdf",
+    "peso": "53 KB"
   },
   {
     "id": "estado-resultados-2023-2024",
     "titulo": "Estado de resultados 2023-2024",
     "categoria": "Estados de resultados",
     "periodo": "2023-2024",
-    "archivo": "/documentos/estado-resultados-2023-2024.pdf"
+    "archivo": "/documentos/estado-resultado-2023-2024.pdf",
+    "peso": "55 KB"
   },
   {
     "id": "convenio-pvm-2022",
     "titulo": "Convenio Fondo Vivir Mejor 2022 — Ministerio de Desarrollo Social y Familia",
     "categoria": "Convenios",
     "periodo": "2022",
-    "archivo": "/documentos/convenio-vivir-mejor-2022.pdf"
+    "archivo": "/documentos/convenio-vivir-mejor-2022.pdf",
+    "pendiente": true
   },
   {
     "id": "convenio-fvm-2024",
     "titulo": "Convenio Fondo Vivir Mejor 2024 — Ministerio de Desarrollo Social y Familia",
     "categoria": "Convenios",
     "periodo": "2024",
-    "archivo": "/documentos/convenio-vivir-mejor-2024.pdf"
+    "archivo": "/documentos/convenio-fvm-2024.pdf",
+    "peso": "6,8 MB"
   },
   {
     "id": "convenio-fpa-2024",
@@ -84,7 +93,7 @@
     "categoria": "Convenios",
     "periodo": "2024",
     "archivo": "/documentos/convenio-fpa-2024.pdf",
-    "peso": "197 KB"
+    "peso": "196 KB"
   },
   {
     "id": "convenio-fpa-2025",
@@ -92,7 +101,7 @@
     "categoria": "Convenios",
     "periodo": "2025",
     "archivo": "/documentos/convenio-fpa-2025.pdf",
-    "peso": "198 KB"
+    "pendiente": true
   },
   {
     "id": "convenio-ffoip-2025",

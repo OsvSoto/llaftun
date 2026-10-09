@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { FotoCabecera } from '../types/content'
 import DivisorHojas from './DivisorHojas'
 import Enredadera from './Enredadera'
+import { estiloDeEncuadre } from '../hooks/encuadre'
 
 /**
  * Estructura común de las páginas interiores, con la identidad visual de la
@@ -53,11 +54,7 @@ export default function Pagina({
               sizes={foto.srcGrande ? '100vw' : undefined}
               // Difuminada ya no se lee como fotografía: es decorativa.
               alt={foto.difuminada ? '' : foto.imagen.alt}
-              style={
-                foto.imagen.encuadre
-                  ? { objectPosition: foto.imagen.encuadre }
-                  : undefined
-              }
+              style={estiloDeEncuadre(foto.imagen)}
               fetchPriority="high"
               decoding="async"
             />

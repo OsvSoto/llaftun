@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { sitio } from '../content/sitio'
 import Icono from './Icono'
@@ -39,6 +39,49 @@ function useReinicioDeNavegacion() {
 }
 
 /**
+ * Menú de celular. Hasta 52rem los ocho enlaces no caben en una línea: se
+ * repartían en dos filas que dejaban la cabecera en 162px -una quinta parte
+ * de la pantalla de un celular- y el desplegable "Conoce la fundación" se
+ * abría encima de la segunda fila. Debajo de ese ancho el menú se guarda
+ * tras un botón.
+ *
+ * Se cierra al cambiar de página, con Escape y al tocar fuera. Mientras está
+ * abierto se bloquea el desplazamiento del fondo, porque el panel ocupa toda
+ * la pantalla y si no, se desplaza la página de atrás.
+ */
+function useMenuDeCelular(pathname: string) {
+  const [abierto, setAbierto] = useState(false)
+  const contenedor = useRef<HTMLDivElement>(null)
+
+  useEffect(() => setAbierto(false), [pathname])
+
+  useEffect(() => {
+    if (!abierto) return
+
+    function alTeclear(evento: KeyboardEvent) {
+      if (evento.key === 'Escape') setAbierto(false)
+    }
+    function alTocarFuera(evento: PointerEvent) {
+      if (!contenedor.current?.contains(evento.target as Node)) {
+        setAbierto(false)
+      }
+    }
+
+    const desbordeOriginal = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', alTeclear)
+    document.addEventListener('pointerdown', alTocarFuera)
+    return () => {
+      document.body.style.overflow = desbordeOriginal
+      document.removeEventListener('keydown', alTeclear)
+      document.removeEventListener('pointerdown', alTocarFuera)
+    }
+  }, [abierto])
+
+  return { abierto, setAbierto, contenedor }
+}
+
+/**
  * Publica el alto real de la cabecera como `--alto-cabecera`, para que la
  * portada a pantalla completa ocupe justo lo que queda de la ventana y se
  * fije bajo la cabecera. Se mide en vez de fijarlo porque cambia con el
@@ -63,6 +106,7 @@ export default function Layout() {
   useReinicioDeNavegacion()
   useAltoCabecera()
   const { pathname } = useLocation()
+  const menu = useMenuDeCelular(pathname)
   const enSeccionFundacion = enlacesFundacion.some((enlace) =>
     pathname.startsWith(enlace.a),
   )
@@ -74,7 +118,7 @@ export default function Layout() {
       </a>
 
       <header className="cabecera">
-        <div className="contenedor cabecera__interior">
+        <div className="contenedor cabecera__interior" ref={menu.contenedor}>
           <NavLink to="/" className="cabecera__marca">
             <img
               className="cabecera__logo"
@@ -86,7 +130,23 @@ export default function Layout() {
               height={424}
             />
           </NavLink>
-          <nav className="navegacion" aria-label="Navegación principal">
+          <button
+            type="button"
+            className="cabecera__boton-menu"
+            aria-expanded={menu.abierto}
+            aria-controls="navegacion-principal"
+            aria-label={menu.abierto ? 'Cerrar el menú' : 'Abrir el menú'}
+            onClick={() => menu.setAbierto(!menu.abierto)}
+          >
+            <Icono tipo={menu.abierto ? 'cerrar' : 'menu'} />
+          </button>
+
+          <nav
+            id="navegacion-principal"
+            className={
+              'navegacion' + (menu.abierto ? ' navegacion--abierta' : '')
+            }
+            aria-label="Navegación principal">
             <NavLink
               to="/"
               end

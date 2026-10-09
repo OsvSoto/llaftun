@@ -290,11 +290,17 @@ img {
 /* De la copa a la hojarasca: es el salto de luz más grande del descenso
    (verde profundo a casi blanco), así que es la transición más larga. Las
    hojas van arriba, donde el fondo todavía es verde, y abajo queda espacio
-   para que el color termine de aclararse antes de "Sobre Llaftun". */
+   para que el color termine de aclararse antes de "Sobre Llaftun".
+
+   El relleno de abajo era de hasta 15rem y dejaba media pantalla de
+   degradado sin nada: medido en 1280px, la franja entera ocupaba 397px y no
+   tenía una sola palabra. Se recortó a la mitad. El degradado sigue
+   leyéndose: lo que daba la transición era el cambio de color, no la
+   cantidad de espacio. */
 .franja--hojarasca {
   --desde: var(--verde-profundo);
   --hasta: var(--hojarasca);
-  padding-block: clamp(2rem, 5vw, 4.5rem) clamp(7rem, 18vw, 15rem);
+  padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 8vw, 7rem);
 }
 
 /* En verde pálido, el color del texto sobre la copa: sobre el verde de
@@ -469,6 +475,143 @@ img {
   background: var(--arena);
 }
 
+/* ----------------------------------------------------------
+   Menú de celular
+   ---------------------------------------------------------- */
+
+/* El botón solo existe en pantallas angostas (ver la media query de abajo);
+   en escritorio el menú va siempre desplegado y el botón estorba. */
+.cabecera__boton-menu {
+  display: none;
+  background: none;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--verde-profundo);
+  /* 44x44: el mínimo que se puede tocar con el pulgar sin errarle. */
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  place-items: center;
+  cursor: pointer;
+}
+
+.cabecera__boton-menu .icono {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Hasta 52rem los ocho enlaces no caben en una línea. Antes se repartían en
+   dos filas -la cabecera quedaba en 162px, una quinta parte de la pantalla
+   de un celular- y el desplegable se abría tapando la segunda fila. Acá el
+   menú pasa a ser un panel que cuelga de la cabecera, con los enlaces en
+   vertical y el submenú de "Conoce la fundación" ya desplegado: en una lista
+   que se recorre con el pulgar, esconderlo no ahorra nada y el :hover del
+   escritorio no existe. */
+@media (max-width: 52rem) {
+  .cabecera__interior {
+    position: relative;
+    flex-wrap: nowrap;
+  }
+
+  .cabecera__boton-menu {
+    display: grid;
+  }
+
+  .navegacion {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1.25rem 1rem;
+    background: var(--papel);
+    border-bottom: 1px solid var(--borde);
+    box-shadow: 0 16px 30px -14px rgb(0 0 0 / 0.3);
+    max-height: calc(100svh - var(--alto-cabecera, 5.5rem));
+    overflow-y: auto;
+  }
+
+  .navegacion--abierta {
+    display: flex;
+  }
+
+  /* Cada enlace es una fila completa de 44px de alto: así se toca sin
+     apuntar, y el subrayado de "página actual" pasa a un borde a la
+     izquierda, que en una lista vertical se lee mejor. */
+  .navegacion a,
+  .navegacion button {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 1rem;
+    padding: 0.35rem 0.5rem;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .navegacion a:hover {
+    border-bottom-color: transparent;
+  }
+
+  .navegacion a.activo,
+  .navegacion button.activo {
+    border-bottom-color: transparent;
+    border-left-color: var(--verde);
+    background: var(--arena);
+  }
+
+  .navegacion a.navegacion__destacado {
+    justify-content: center;
+    margin-top: 0.6rem;
+    padding: 0.6rem 0.95rem;
+    border-left-color: transparent;
+  }
+
+  /* El submenú deja de ser flotante: queda en el flujo, indentado bajo su
+     encabezado. El botón ya no abre nada, así que se ve como rótulo. */
+  .navegacion__desplegable {
+    display: contents;
+  }
+
+  .navegacion button {
+    cursor: default;
+    color: var(--tinta-suave);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    min-height: 2rem;
+    margin-top: 0.35rem;
+  }
+
+  .navegacion__flecha {
+    display: none;
+  }
+
+  .navegacion__submenu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    gap: 0;
+  }
+
+  .navegacion__submenu a {
+    padding-left: 1.25rem;
+    border-radius: 0;
+  }
+}
+
 /* ==========================================================
    Portada: fotos a pantalla completa (PortadaInmersiva)
    ========================================================== */
@@ -545,11 +688,15 @@ img {
   transition: none;
 }
 
+/* El encuadre llega en dos variables y no en un `object-position` en línea
+   (ver hooks/encuadre.ts): así la media query de celular puede recentrar la
+   foto sin pelear contra un estilo en línea, que siempre gana. */
 .portada-inmersiva__foto img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--encuadre-x, center) var(--encuadre-y, center);
 }
 
 /* Acercamiento lento mientras la foto está a la vista. La que sale conserva
@@ -585,14 +732,30 @@ img {
     linear-gradient(90deg, rgb(23 36 15 / 0.88) 0%, rgb(23 36 15 / 0.62) 40%, rgb(23 36 15 / 0.18) 70%, rgb(23 36 15 / 0.42) 100%);
 }
 
+/* El grano iba con `mix-blend-mode: overlay` sobre un rectángulo de ruido
+   gris opaco. Se veía bien, pero costaba caro: una capa con mezcla ocupa
+   aquí el 89% de la ventana y obliga al navegador a releer lo que tiene
+   debajo y recomponer esos píxeles en el hilo principal cada vez que el
+   fondo cambia. Y el fondo cambia siempre: la foto de abajo corre una
+   animación de acercamiento permanente. Además, una mezcla descarta del
+   compositor a todo el subárbol, así que las animaciones de scroll del velo
+   y del titular, que son solo `opacity` y `transform` y deberían resolverse
+   en la tarjeta de video, terminaban también en el hilo principal.
+
+   En celular casi no se notaba porque la portada mide 375x608 (228k px²);
+   en un notebook de 1280 son 911k px², cuatro veces más.
+
+   Ahora el ruido lleva la variación en el canal alfa (la última matriz pasa
+   la luminancia a alfa y deja el color en negro), así que son motas oscuras
+   que se componen de forma normal, sin releer el fondo. El grano se ve algo
+   más apagado que antes; `opacity` es la perilla para ajustarlo. */
 .portada-inmersiva__velo::after,
 .cabecera-pagina__velo::after {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.13;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 -0.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: 220px;
 }
 
@@ -846,6 +1009,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--encuadre-x, center) var(--encuadre-y, center);
 }
 
 /* Fotos sin resolución para todo el ancho: difuminadas no se nota que son
@@ -956,6 +1120,70 @@ img {
   }
 }
 
+/* El velo de arriba reparte la sombra de izquierda a derecha, porque en
+   escritorio el titular va a la izquierda y la foto respira a la derecha. En
+   un celular vertical no hay derecha: a 375px de ancho, el tramo oscuro
+   (0,88 al borde, 0,62 al 40%) cubría la foto entera y la portada se veía
+   como un rectángulo verde. Acá la sombra baja de arriba abajo -clara en la
+   copa, densa donde va el titular-, que además es el mismo descenso que
+   cuenta el resto de la página. */
+/* En una pantalla vertical la foto se recorta por los costados, y mucho: de
+   una foto de 3:2 dentro de un marco de 375x724 se ve apenas un tercio del
+   ancho. Los encuadres declarados en `src/content/` están calculados para
+   escritorio, donde el titular ocupa la izquierda y conviene correr a la
+   gente hacia la derecha; aplicados a ese tercio dejaban a las personas
+   cortadas contra el borde. Acá la foto se centra, que es lo que mejor
+   funciona cuando se ve tan poco, y se conserva el encaje vertical, que es
+   el que cuida que no se corten las caras en las cabeceras. */
+@media (max-width: 48rem) {
+  .portada-inmersiva__foto img,
+  .cabecera-pagina__foto img {
+    object-position: center var(--encuadre-y, center);
+  }
+}
+
+/* La portada deja de ocupar toda la pantalla en celular. Dos razones:
+   - Se pierde menos foto. El recorte lateral lo manda el alto del marco: a
+     pantalla completa (375x724) de una foto de 3:2 se ve el 35% del ancho;
+     con el marco más bajo se ve cerca del 45%.
+   - Asoma el comienzo de la sección siguiente, que es la señal de que la
+     página sigue hacia abajo. A pantalla completa no se ve nada bajo la
+     portada y hay que adivinar que hay que desplazar.
+   El tope va en `rem` y no en `svh` para que el titular, la bajada y el
+   botón quepan igual en un celular chico; el `min()` evita que en uno más
+   chico todavía la portada sobrepase la ventana. */
+@media (max-width: 48rem) {
+  .portada-inmersiva {
+    height: min(calc(100svh - var(--alto-cabecera, 5.5rem)), 38rem);
+    min-height: 0;
+  }
+}
+
+@media (max-width: 48rem) {
+  .portada-inmersiva__velo,
+  .cabecera-pagina__velo {
+    background:
+      radial-gradient(26rem 18rem at 100% 100%, rgb(172 110 40 / 0.32), transparent 72%),
+      linear-gradient(
+        0deg,
+        rgb(23 36 15 / 0.9) 0%,
+        rgb(23 36 15 / 0.76) 40%,
+        rgb(23 36 15 / 0.22) 72%,
+        rgb(23 36 15 / 0.42) 100%
+      );
+  }
+}
+
+/* En pantallas táctiles los indicadores crecen hasta los 44x44 recomendados.
+   La línea visible no cambia de tamaño: crece el relleno alrededor. */
+@media (pointer: coarse) {
+  .portada-inmersiva__indicadores button {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding-inline: 0.2rem;
+  }
+}
+
 /* ==========================================================
    Grillas y tarjetas
    ========================================================== */
@@ -1040,6 +1268,15 @@ a.tarjeta:hover h4 {
   height: 2.5rem;
   color: var(--verde-profundo);
   margin-bottom: 0.6rem;
+}
+
+/* Las tarjetas de una misma fila terminaban con el resumen a distinta
+   altura, porque unos títulos ocupan una línea y otros dos. Reservando dos
+   líneas en el título, los resúmenes arrancan todos en la misma raya. El
+   `em` va primero como respaldo para navegadores sin la unidad `lh`. */
+.grilla .tarjeta h3 {
+  min-height: 2.6em;
+  min-height: 2lh;
 }
 
 .tarjeta__meta {
@@ -1342,6 +1579,14 @@ a.tarjeta:hover h4 {
   font-size: 1.02rem;
 }
 
+/* Documento anunciado cuyo PDF todavía no se sube: se lista para que la
+   fundación vea el vacío, pero sin aspecto de enlace, porque no lleva a
+   ninguna parte. */
+.descarga__enlace--pendiente {
+  color: var(--tinta-suave);
+  font-style: italic;
+}
+
 .descarga__peso {
   color: var(--tinta-suave);
   font-size: 0.85rem;
@@ -1510,9 +1755,12 @@ a.tarjeta:hover h4 {
 }
 
 /* ==========================================================
-   Grilla de Instagram (marcadores mientras no hay widget)
+   Grilla de Instagram
    ========================================================== */
 
+/* Hoy no la usa nadie: los tres marcadores vacíos se reemplazaron por la
+   invitación compacta (ver SeccionInstagram). Se deja porque es la forma
+   que va a tener la grilla cuando se instale el widget. */
 .instagram-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1661,18 +1909,13 @@ a.tarjeta:hover h4 {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
 }
 
+/* Las reglas que centraban la cabecera y el menú en pantallas angostas se
+   fueron con el menú de celular: ahora el logo va a la izquierda y el botón
+   del menú a la derecha, y los enlaces son una lista vertical. */
 @media (max-width: 34rem) {
   .linea {
     grid-template-columns: 1fr;
     gap: 0.2rem;
-  }
-
-  .cabecera__interior {
-    justify-content: center;
-  }
-
-  .navegacion {
-    justify-content: center;
   }
 }
 
@@ -1760,4 +2003,73 @@ a.tarjeta:hover h4 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================
+   Banda de cifras (CifrasLlaftun)
+   ========================================================== */
+
+/* Una fila de números grandes con una glosa corta debajo: el recurso
+   estándar de los sitios de fundaciones, y el que mejor rinde donde el
+   inicio se veía vacío, porque da densidad ocupando poco alto.
+   `auto-fit` en vez de un número fijo de columnas porque la cantidad de
+   cifras cambia sola (ver CifrasLlaftun.tsx): si el índice de materiales no
+   carga, quedan tres y la fila se reparte igual. */
+.cifras {
+  display: grid;
+  /* 8,5rem y no más: es el mínimo que deja DOS columnas en un celular de
+     375px. Con un mínimo mayor las cifras se apilaban de a una y la banda
+     pasaba de 108px a 346px, que es justo el vacío que vino a resolver. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr));
+  gap: 1.5rem 2rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--borde);
+}
+
+.cifra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+}
+
+.cifra__numero {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2.4rem, 1.4rem + 2.4vw, 3.4rem);
+  line-height: 1;
+  color: var(--verde-profundo);
+}
+
+.cifra__glosa {
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: var(--tinta-suave);
+  text-wrap: balance;
+}
+
+/* Invitación a Instagram mientras no esté el widget (ver SeccionInstagram).
+   En fila cuando hay ancho, apilada en celular; el botón no se estira. */
+.invitacion-redes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem 2.5rem;
+}
+
+.invitacion-redes > div {
+  flex: 1 1 22rem;
+}
+
+.invitacion-redes h2,
+.invitacion-redes p:last-child {
+  margin-bottom: 0;
+}
+
+.invitacion-redes__boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
 }

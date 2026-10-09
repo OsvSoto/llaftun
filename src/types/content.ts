@@ -118,6 +118,12 @@ export interface DocumentoTransparencia {
   /** Año o periodo que cubre el documento, p.ej. "2023" o "2023-2024". */
   periodo?: string
   peso?: string
+  /**
+   * El documento está anunciado pero su PDF todavía no se sube. Se muestra en
+   * la lista, sin enlace: así la fundación ve qué le falta y el visitante no
+   * se topa con una descarga rota.
+   */
+  pendiente?: boolean
 }
 
 /** Video de la fundación, alojado en YouTube o Vimeo (nunca en el hosting propio). */

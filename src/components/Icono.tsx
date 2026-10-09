@@ -2,6 +2,8 @@ const trazos = {
   'chevron-izquierda': 'M15 5 L8 12 L15 19',
   'chevron-derecha': 'M9 5 L16 12 L9 19',
   'flecha-derecha': 'M4 12 H17 M12 6 L18 12 L12 18',
+  menu: 'M4 7 H20 M4 12 H20 M4 17 H20',
+  cerrar: 'M6 6 L18 18 M18 6 L6 18',
   bienestar:
     'M12 20 C12 20 4 14 4 8.5 C4 5.5 6.5 4 9 4 C10.5 4 12 5 12 6.5 C12 5 13.5 4 15 4 C17.5 4 20 5.5 20 8.5 C20 14 12 20 12 20 Z',
 } as const

@@ -54,22 +54,33 @@ export default function Transparencia() {
               <AlAparecer escalonado>
                 <h2>{categoria}</h2>
                 <ul className="descargas">
-                  {documentos.map((documento) => (
-                    <li key={documento.id} className="descarga">
-                      <a
-                        className="descarga__enlace"
-                        href={documento.archivo}
-                        download
-                      >
-                        {documento.titulo}
-                      </a>{' '}
-                      {documento.peso && (
+                  {documentos.map((documento) =>
+                    documento.pendiente ? (
+                      <li key={documento.id} className="descarga">
+                        <span className="descarga__enlace descarga__enlace--pendiente">
+                          {documento.titulo}
+                        </span>{' '}
                         <span className="descarga__peso">
-                          (PDF, {documento.peso})
+                          (pendiente de publicar)
                         </span>
-                      )}
-                    </li>
-                  ))}
+                      </li>
+                    ) : (
+                      <li key={documento.id} className="descarga">
+                        <a
+                          className="descarga__enlace"
+                          href={documento.archivo}
+                          download
+                        >
+                          {documento.titulo}
+                        </a>{' '}
+                        {documento.peso && (
+                          <span className="descarga__peso">
+                            (PDF, {documento.peso})
+                          </span>
+                        )}
+                      </li>
+                    ),
+                  )}
                 </ul>
               </AlAparecer>
             </section>

@@ -12,6 +12,7 @@ import DivisorHojas from '../components/DivisorHojas'
 import RamitaHojas from '../components/RamitaHojas'
 import Icono from '../components/Icono'
 import SeccionHistorias from '../components/SeccionHistorias'
+import CifrasLlaftun from '../components/CifrasLlaftun'
 import PortadaInmersiva from '../components/PortadaInmersiva'
 
 /**
@@ -105,6 +106,7 @@ export default function Inicio() {
                 escuelas, agrupaciones y equipos de salud de la zona.
               </p>
             </AlAparecer>
+            <CifrasLlaftun />
             <SeccionHistorias />
           </div>
         </section>

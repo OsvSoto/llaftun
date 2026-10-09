@@ -20,40 +20,41 @@ import AlAparecer from './AlAparecer'
  * semanas, conviene NO mostrar fechas: un "hace 24 días" hace ver el sitio
  * abandonado. Una grilla sin fecha envejece mejor.
  *
- * Van tres recuadros, no uno solo: así se ve desde ya la forma que va a
- * tener la grilla real una vez que el widget esté instalado, en vez de un
- * bloque ancho que habría que rehacer.
+ * MIENTRAS NO ESTÉ EL WIDGET: iban tres recuadros vacíos con la leyenda
+ * "widget pendiente de instalar", para dejar ver la forma que tendría la
+ * grilla real. En la práctica eran 692px -casi una pantalla completa- de
+ * marcadores grises, y era el hueco más grande del inicio. Ahora va una
+ * invitación compacta con el nombre de la cuenta: ocupa un tercio del alto y
+ * todo lo que muestra es verdadero. Cuando llegue el widget, se reemplaza
+ * este bloque por la grilla y la sección recupera su altura.
  */
 export default function SeccionInstagram() {
+  // De "https://www.instagram.com/fundacionllaftun.cl/" a "@fundacionllaftun.cl".
+  const cuenta =
+    '@' + sitio.redes.instagram.replace(/\/+$/, '').split('/').pop()
+
   return (
     <section className="seccion estrato--piso">
       <div className="contenedor">
-        <AlAparecer escalonado>
-          <h2>Últimas novedades</h2>
-          <p>
-            Compartimos el día a día de nuestros proyectos en Instagram: talleres,
-            salidas educativas y actividades con las comunidades con las que
-            trabajamos.
-          </p>
-        </AlAparecer>
-
-        <AlAparecer escalonado className="instagram-grid">
-          {[1, 2, 3].map((n) => (
-            <div key={n} className="marcador-imagen" style={{ aspectRatio: '1' }}>
-              Publicación de Instagram (widget pendiente de instalar)
-            </div>
-          ))}
-        </AlAparecer>
-
-        <p style={{ marginTop: '1.25rem' }}>
+        <AlAparecer escalonado className="invitacion-redes">
+          <div>
+            <h2>Últimas novedades</h2>
+            <p>
+              Compartimos el día a día de nuestros proyectos en Instagram:
+              talleres, salidas educativas y actividades con las comunidades
+              con las que trabajamos.
+            </p>
+          </div>
           <a
+            className="boton invitacion-redes__boton"
             href={sitio.redes.instagram}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ver Instagram <Icono tipo="flecha-derecha" />
+            <Icono tipo="instagram" />
+            {cuenta}
           </a>
-        </p>
+        </AlAparecer>
       </div>
     </section>
   )

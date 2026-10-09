@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom'
 import { sitio } from '../content/sitio'
 import { fotosPortada } from '../content/portada'
 import { buscarProyecto } from '../content/proyectos'
+import { estiloDeEncuadre } from '../hooks/encuadre'
 import Enredadera from './Enredadera'
 import Icono from './Icono'
 
 const INTERVALO_MS = 7000
+/** Recorrido horizontal mínimo, en píxeles, para que un toque cuente como deslizar. */
+const UMBRAL_DESLIZAR = 45
 
 /**
  * Portada de la página de inicio, a pantalla completa. Inspirada en la de
@@ -26,10 +29,11 @@ const INTERVALO_MS = 7000
  * cursor, porque ocupa toda la pantalla y el cursor casi siempre está
  * encima. Sí se detiene con foco de teclado, con la pestaña oculta y cuando
  * el telón ya la tapó entera. Los indicadores de abajo permiten saltar a una
- * foto.
+ * foto, y en celular se puede deslizar el dedo de lado para cambiarla.
  */
 export default function PortadaInmersiva() {
   const ref = useRef<HTMLElement>(null)
+  const inicioDelToque = useRef<{ x: number; y: number } | null>(null)
   const [indice, setIndice] = useState(0)
   const [anterior, setAnterior] = useState<number | null>(null)
   const [conFocoDeTeclado, setConFocoDeTeclado] = useState(false)
@@ -46,6 +50,36 @@ export default function PortadaInmersiva() {
     if (i === indice) return
     setAnterior(indice)
     setIndice(i)
+  }
+
+  // Deslizar con el dedo para cambiar de foto, que en celular es el gesto
+  // que se espera sobre una foto a pantalla completa (los indicadores
+  // quedan abajo y son chicos para apuntarles con el pulgar).
+  //
+  // Se anota dónde empezó el toque y se compara al soltar. Solo cuenta si
+  // el recorrido horizontal pasa de UMBRAL_DESLIZAR y es mayor que el
+  // vertical: así un scroll de la página hacia abajo, o un toque en el
+  // rótulo del proyecto, no cambian la foto. No se escucha `touchmove` ni se
+  // llama a `preventDefault`, justamente para no quitarle a la página su
+  // desplazamiento vertical.
+  function alEmpezarToque(evento: React.TouchEvent) {
+    const toque = evento.touches[0]
+    inicioDelToque.current = { x: toque.clientX, y: toque.clientY }
+  }
+
+  function alSoltarToque(evento: React.TouchEvent) {
+    const inicio = inicioDelToque.current
+    inicioDelToque.current = null
+    if (!inicio || total <= 1) return
+
+    const toque = evento.changedTouches[0]
+    const avanceX = toque.clientX - inicio.x
+    const avanceY = toque.clientY - inicio.y
+    if (Math.abs(avanceX) < UMBRAL_DESLIZAR) return
+    if (Math.abs(avanceX) <= Math.abs(avanceY)) return
+
+    // Hacia la izquierda, la foto siguiente; hacia la derecha, la anterior.
+    irA((indice + (avanceX < 0 ? 1 : total - 1)) % total)
   }
 
   useEffect(() => {
@@ -84,24 +118,34 @@ export default function PortadaInmersiva() {
   useEffect(() => {
     const portada = ref.current
     if (!portada) return
-    let pendiente = false
+    // Guarda el número de cuadro pedido, no un booleano. Con un booleano, si
+    // el cuadro no llegaba a ejecutarse -el navegador congela
+    // requestAnimationFrame mientras la pestaña está en segundo plano- la
+    // marca quedaba en `true` para siempre y `revisar` no volvía a correr
+    // nunca: al volver a la pestaña, la portada se quedaba dibujándose
+    // debajo del resto de la página. Con el id se puede cancelar el cuadro
+    // viejo y pedir otro, y además limpiarlo al desmontar.
+    let cuadro = 0
 
     function revisar() {
-      pendiente = false
+      cuadro = 0
       setCubierta(window.scrollY >= portada!.offsetHeight)
     }
     function alMoverse() {
-      if (pendiente) return
-      pendiente = true
-      requestAnimationFrame(revisar)
+      if (cuadro) cancelAnimationFrame(cuadro)
+      cuadro = requestAnimationFrame(revisar)
     }
 
     revisar()
     window.addEventListener('scroll', alMoverse, { passive: true })
     window.addEventListener('resize', alMoverse)
+    // Al volver a la pestaña, recalcular sin esperar a que alguien se mueva.
+    document.addEventListener('visibilitychange', alMoverse)
     return () => {
+      if (cuadro) cancelAnimationFrame(cuadro)
       window.removeEventListener('scroll', alMoverse)
       window.removeEventListener('resize', alMoverse)
+      document.removeEventListener('visibilitychange', alMoverse)
     }
   }, [])
 
@@ -115,6 +159,9 @@ export default function PortadaInmersiva() {
         setConFocoDeTeclado(evento.target.matches(':focus-visible'))
       }
       onBlur={() => setConFocoDeTeclado(false)}
+      onTouchStart={alEmpezarToque}
+      onTouchEnd={alSoltarToque}
+      onTouchCancel={() => (inicioDelToque.current = null)}
     >
       <div className="portada-inmersiva__fotos">
         {fotosPortada.map((foto, i) => {
@@ -136,11 +183,7 @@ export default function PortadaInmersiva() {
                   srcSet={`${foto.imagen.src} 1280w, ${foto.srcGrande} 2400w`}
                   sizes="100vw"
                   alt={foto.imagen.alt}
-                  style={
-                    foto.imagen.encuadre
-                      ? { objectPosition: foto.imagen.encuadre }
-                      : undefined
-                  }
+                  style={estiloDeEncuadre(foto.imagen)}
                   fetchPriority={i === 0 ? 'high' : undefined}
                   decoding="async"
                 />

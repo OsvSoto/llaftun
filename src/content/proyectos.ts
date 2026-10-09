@@ -143,11 +143,9 @@ export const proyectos: Proyecto[] = [
     ],
     area: 'educacion-ambiental',
     coordinacion: 'Aliwen Lawen, Espacio para el Buen Vivir',
-    // PENDIENTE: revisar el texto alternativo contra la fotografía.
-    imagenPrincipal: {
-      src: '/img/proyectos/reforestacion-con-arboles-nativos/principal.jpg',
-      alt: 'Entrega de árboles nativos para reforestación',
-    },
+    // PENDIENTE: falta la fotografía principal. La que había se descartó por
+    // calidad; sin `imagenPrincipal` se muestra el marcador de imagen
+    // faltante en vez de una descarga rota.
     destacado: false,
   },
   {
@@ -449,11 +447,9 @@ export const proyectos: Proyecto[] = [
     area: 'bienestar',
     periodo: '2018',
     coordinacion: 'Ivonne Salazar',
-    // PENDIENTE: revisar el texto alternativo contra la fotografía.
-    imagenPrincipal: {
-      src: '/img/proyectos/meditacion-con-sonido/principal.jpg',
-      alt: 'Sesión de meditación con sonido con funcionarias municipales',
-    },
+    // PENDIENTE: falta la fotografía principal. La que había se descartó por
+    // calidad; sin `imagenPrincipal` se muestra el marcador de imagen
+    // faltante en vez de una descarga rota.
     destacado: false,
   },
 ]
